@@ -76,12 +76,12 @@ make clear
 
 Базовая команда для запуска БД, миграций, сервиса:
 ```shell
-docker exec backend-container-bridge make server-init
+docker exec backend-container-skils make server-init
 ```
 
 наполнение PostgreSQL тестовыми данными:
 ```shell
-docker exec backend-container-bridge poetry run python manage.py loaddata fixtures/data.json
+docker exec backend-container-skills poetry run python manage.py loaddata fixtures/data.json
 ```
 
 # 4 Cтэк технологий <a id="stack"></a>
