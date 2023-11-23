@@ -76,7 +76,7 @@ make clear
 
 Базовая команда для запуска БД, миграций, сервиса:
 ```shell
-docker exec backend-container-skils make server-init
+docker exec backend-container-skills make server-init
 ```
 
 наполнение PostgreSQL тестовыми данными:
