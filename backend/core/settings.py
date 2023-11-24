@@ -19,6 +19,8 @@ DEFAULT_APPS = [
 ]
 
 LOCAL_APPS = [
+    "api",
+    "users",
 ]
 
 EXTERNAL_APPS = [
