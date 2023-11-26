@@ -1,57 +1,102 @@
 from django.db import models
 
-from users.models import User
 
-
-class SoftSkill(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название")
-    slug = models.CharField(max_length=50)
-    status = models.BinaryField(default=0, verbose_name="Наличие")
+class ResourceLibrary(models.Model):
+    RESOURCE_TYPE = [('course', 'Курс'),
+            ('article', 'Статья'),
+            ('podcast', 'Подкаст'),
+            ('other', 'Другое')]
+    
+    type = models.CharField(max_length=8, choices=RESOURCE_TYPE)
+    description = models.TextField()
+    learning_time = models.IntegerField()
+    url = models.URLField()
 
     class Meta:
-        verbose_name = 'Софт скил'
-        verbose_name_plural = 'Софт скиллы'
+        verbose_name = 'Библиотека ресурсов'
+        verbose_name_plural = 'Библиотеки ресурсов'
+
+    def __str__(self):
+        return self.type
+    
+
+class SkillGroup(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Группа навыка'
+        verbose_name_plural = 'Группы навыков'
+
+    def __str__(self):
+        return self.name
+
+   
+class Specialization(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название")
+    code = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Сфера работы'
+        verbose_name_plural = 'Сферы работы'
 
     def __str__(self):
         return self.name
     
 
-class HardSkill(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название")
-    slug = models.CharField(max_length=150)
-    status = models.BinaryField(default=0, verbose_name="Наличие")
+class PostLevel(models.Model):
+    POST_LEVEL_NAMES = [('none', 'Не знаю'),
+                        ('jun', 'Junior'),
+                        ('mid', 'Middle'),
+                        ('mid+', 'Middle+'),
+                        ('sen', 'Senior'),
+                        ('sen+', 'Senior+')]
+
+    specialization = models.ForeignKey(Specialization,
+                                       verbose_name='Сфера работы',
+                                       related_name='post_specialization',
+                                       on_delete=models.CASCADE)
+    code = models.IntegerField()
+    name = models.CharField(max_length=4, choices=POST_LEVEL_NAMES)
 
     class Meta:
-        verbose_name = 'Софт скил'
-        verbose_name_plural = 'Софт скиллы'
+        verbose_name = 'Уровень должности'
+        verbose_name_plural = 'Уровни должности'
+
+    def __str__(self):
+        return f'{self.name}, {self.specialization.name}'
+
+
+class Skill(models.Model):
+    SKILL_TYPE = [('soft', 'Софт скилл'), ('hard','Хард скилл')]
+
+    name = models.CharField(max_length=50, verbose_name='Название навыка')
+    description = models.TextField()
+    specialization = models.ForeignKey(Specialization,
+                                       verbose_name='Сфера работы',
+                                       related_name='skill_specialization',
+                                       on_delete=models.PROTECT)
+    group = models.ForeignKey(SkillGroup,
+                              verbose_name='Группа навыка',
+                              related_name='skill_group',
+                              on_delete=models.PROTECT)
+    type = models.CharField(max_length=4, choices=SKILL_TYPE, verbose_name='Тип навыка')
+    post_level = models.ForeignKey(PostLevel,
+                                   verbose_name='Уровень должности',
+                                   related_name='post_level', 
+                                   on_delete=models.SET_NULL,
+                                   null=True, blank=True)
+                                 #  limit_choices_to={'specialization': specialization})
+    code = models.IntegerField()
+
+    date_from = models.DateField(verbose_name='Дата начала действия навыка')
+    date_to = models.DateField(verbose_name='Дата окончания действия навыка', default=None, null=True, blank=True)
+    resource_library = models.ManyToManyField(ResourceLibrary,
+                                               verbose_name='Библиотека ресурсов',
+                                               related_name='resource_library')
+
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Навыки'
 
     def __str__(self):
         return self.name
-
-
-class Level(models.Model):
-    soft_skill = models.ForeignKey(SoftSkill, verbose_name='Софт скилл', related_name='soft_skill')
-    hard_skill = models.ForeignKey(HardSkill, verbose_name='Хард скилл', related_name='hard_skill')
-
-    def __str__(self):
-        return self.soft_skill, self.hard_skill
-
-
-class Profession(models.Model):
-    title = models.CharField(max_length=100, verbose_name="Название")
-    slug = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Профессия'
-        verbose_name_plural = 'Профессии'
-
-    def __str__(self):
-        return self.title
-
-class Goal(models.Model):
-    profession = models.ForeignKey(Profession, verbose_name='Профессия', related_name='profession')
-    level = models.ForeignKey(Level, verbose_name='Уровень', related_name='level')
-    garde = models.IntegerField()
-
-    def __str__(self):
-        return self.profession, self.level
