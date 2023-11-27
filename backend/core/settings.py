@@ -1,13 +1,21 @@
+import os
+from datetime import timedelta
 from pathlib import Path
 
+import environ
+from dotenv import find_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-l4+k@kvq%c1a*@trakpa4n6d&m1qk(b=m)h16+uaijo3ru4+q3'
+env = environ.Env()
+if DEBUG := env.bool("DEBUG", default=True):
+    environ.Env.read_env(find_dotenv(".env"))
 
-DEBUG = True
+DEFAULT = "some_default_key"
 
-ALLOWED_HOSTS = []
+SECRET_KEY = env.str("SECRET_KEY", default=DEFAULT)
+
+ALLOWED_HOSTS = ["*"]
 
 DEFAULT_APPS = [
     "django.contrib.admin",
@@ -25,7 +33,12 @@ LOCAL_APPS = [
 ]
 
 EXTERNAL_APPS = [
+    "corsheaders",
+    "djoser",
+    "drf_yasg",
+    "rest_framework",
 ]
+
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + EXTERNAL_APPS
 
@@ -60,9 +73,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": env.str("POSTGRES_ENGINE",
+                          default='django.db.backends.postgresql'),
+        "NAME": env.str("POSTGRES_NAME", default='postgres'),
+        "USER": env.str("POSTGRES_USER", default='postgres'),
+        "PASSWORD": env.str("POSTGRES_PASSWORD", default='postgres'),
+        "HOST": env.str("POSTGRES_HOST", default='localhost'),
+        "PORT": env.str("POSTGRES_PORT", default='5432'),
     }
 }
 
@@ -82,6 +100,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+}
+
+# DJOSER = {
+#     'LOGIN_FIELD': 'email',
+#     'HIDE_USERS': True,
+#     'SEND_ACTIVATION_EMAIL': True,
+#     'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
+#     'SERIALIZERS': {
+#         'user_create': 'users.serializers.UserRegistrationSerializer',
+#         'user': 'users.serializers.UserSerializer',
+#         'current_user': 'users.serializers.UserSerializer',
+#     },
+#     'PERMISSIONS': {
+#         'user_list': ['rest_framework.permissions.IsAdminUser'],
+#     }
+# }
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -93,6 +138,25 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO': 'api.v1.urls.api_info',
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
