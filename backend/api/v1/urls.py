@@ -1,17 +1,14 @@
+from api.v1.views import UserActivationView
 from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-from api.v1.views import (
-    UserActivationView,
-)
-
 app_name = "v1"
 
 api_info = openapi.Info(
-    title="Candidate API",
+    title="Skills API",
     default_version="v1",
     description="Документация для проекта Bridge",
 )

@@ -1,7 +1,7 @@
 """With these settings, tests run faster."""
 from .settings import *  # noqa
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     "default": {
