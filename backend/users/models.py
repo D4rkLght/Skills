@@ -27,7 +27,7 @@ class UserProfile(models.Model):
                                        related_name='user_specialization',
                                        verbose_name='Текущий уровень',
                                        on_delete=models.PROTECT,)
-    skills = models.ManyToManyField(Skill, through='UserSkills',
+    skills = models.ManyToManyField(Skill, through='UserSkill',
                                     verbose_name='Скиллы пользователя',
                                     related_name='user_skills')
     goal_specialization = models.ForeignKey(Specialization,
@@ -45,7 +45,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class UserSkills(models.Model):
+class UserSkill(models.Model):
     SKILL_STATUS = [('start', 'Добавлен'), ('process', 'В процессе'), ('done', 'Изучен')]
 
     user_profile = models.ForeignKey(UserProfile,
