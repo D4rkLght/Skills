@@ -27,7 +27,7 @@ class UserProfile(models.Model):
                                        related_name='user_specialization',
                                        verbose_name='Сфера работы',
                                        on_delete=models.PROTECT,)
-    skills = models.ManyToManyField(Skill, through='UserSkill',
+    skills = models.ManyToManyField(Skill, through='UserSkills',
                                     verbose_name='Скиллы пользователя',
                                     related_name='user_skills')
     current_post_level = models.ForeignKey(PostLevel,
@@ -47,10 +47,10 @@ class UserProfile(models.Model):
         verbose_name_plural = 'Данные пользователя'
 
     def __str__(self):
-        return f'Профайл {self.user.username}'
+        return self.user.username
 
 
-class UserSkill(models.Model):
+class UserSkills(models.Model):
     SKILL_STATUS = [('start', 'Добавлен'), ('process', 'В процессе'), ('done', 'Изучен')]
 
     user_profile = models.ForeignKey(UserProfile,
