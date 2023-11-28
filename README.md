@@ -18,7 +18,8 @@
 
 # 1. Cведения о команде: <a id="info"></a>
 
-1. Разработчик [Ярослав Андреев ](https://github.com/D4rkLght)
+1. Разработчик [Ярослав Андреев](https://github.com/D4rkLght)
+2. Разработчик [Natalia Arlazarova](https://github.com/sic15)
 
 # 2. Cсылка на веб хостинг <a id="host"></a>
 
@@ -61,7 +62,7 @@ poetry install
 
 запуск сервиса:
 ```shell
-make start
+make server-init
 ```
 
 остановка сервиса:
@@ -72,16 +73,6 @@ make stop
 остановка контейнера сервиса:
 ```shell
 make clear
-```
-
-Базовая команда для запуска БД, миграций, сервиса:
-```shell
-docker exec backend-container-skills make server-init
-```
-
-наполнение PostgreSQL тестовыми данными:
-```shell
-docker exec backend-container-skills poetry run python manage.py loaddata fixtures/data.json
 ```
 
 # 4 Cтэк технологий <a id="stack"></a>
@@ -95,4 +86,3 @@ docker exec backend-container-skills poetry run python manage.py loaddata fixtur
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
 # 5 Cторонние библиотеки <a id="library"></a>
-
