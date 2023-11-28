@@ -51,3 +51,6 @@ fixtures:
 
 server-init: # Базовая команда для запуска БД, миграций, сервиса.
 	make clear start migrate collectstatic createsuperuser
+
+server-no-docker: # Базовая команда для запуска сервиса без докера.
+	poetry run python backend/manage.py runserver --settings core.settings_for_tests
