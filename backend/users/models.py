@@ -5,6 +5,8 @@ from skills.models import Skill, Specialization
 
 
 class User(AbstractUser):
+    """Добавить описание."""
+
     trecker_id = models.CharField(
         unique=True, verbose_name="ID Яндекс Трекера", max_length=200
     )
@@ -18,6 +20,8 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
+    """Добавить описание."""
+
     user = models.ForeignKey(
         User,
         verbose_name="Пользователь",
@@ -53,6 +57,8 @@ class UserProfile(models.Model):
 
 
 class UserSkill(models.Model):
+    """Добавить описание."""
+
     SKILL_STATUS = [
         ("start", "Добавлен"),
         ("process", "В процессе"),
