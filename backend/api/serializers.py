@@ -1,10 +1,10 @@
 from rest_framework import serializers
-
-from skills.models import (Skill)
+from skills.models import Skill
 from users.models import UserSkill
 
 
 class SkillSerializer(serializers.ModelSerializer):
+    """Придумать докстринг."""
 
     class Meta:
         model = Skill
@@ -12,6 +12,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
+    """Придумать докстринг."""
+
     skill = SkillSerializer()
 
     class Meta:
