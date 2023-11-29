@@ -9,6 +9,8 @@ from users.models import UserSkill
 
 
 class SkillViewSet(viewsets.ModelViewSet):
+    """Добавить описание."""
+
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
 
@@ -19,5 +21,7 @@ class SkillViewSet(viewsets.ModelViewSet):
 
 
 class UserSkillViewSet(viewsets.ModelViewSet):
+    """Добавить описание."""
+
     queryset = UserSkill.objects.all()
     serializer_class = UserSkillSerializer

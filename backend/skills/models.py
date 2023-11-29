@@ -2,6 +2,8 @@ from django.db import models
 
 
 class ResourceLibrary(models.Model):
+    """Добавить описание."""
+
     RESOURCE_TYPE = [
         ("course", "Курс"),
         ("article", "Статья"),
@@ -23,6 +25,8 @@ class ResourceLibrary(models.Model):
 
 
 class SkillGroup(models.Model):
+    """Добавить описание."""
+
     name = models.CharField(max_length=100)
 
     class Meta:
@@ -34,6 +38,8 @@ class SkillGroup(models.Model):
 
 
 class Specialization(models.Model):
+    """Добавить описание."""
+
     POST_LEVEL_NAMES = [
         ("none", "Не знаю"),
         ("jun", "Junior"),
@@ -57,6 +63,8 @@ class Specialization(models.Model):
 
 
 class Skill(models.Model):
+    """Добавить описание."""
+
     SKILL_TYPE = [("soft", "Софт скилл"), ("hard", "Хард скилл")]
 
     name = models.CharField(max_length=50, verbose_name="Название навыка")
