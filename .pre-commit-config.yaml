@@ -8,13 +8,13 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.0.289
+    rev: v0.1.1
     hooks:
       - id: ruff
+      - id: ruff-format
 
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 23.10.0
     hooks:
       - id: black
         args: ['--line-length=79']
