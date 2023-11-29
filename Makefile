@@ -52,5 +52,20 @@ fixtures:
 server-init: # Базовая команда для запуска БД, миграций, сервиса.
 	make clear start migrate collectstatic createsuperuser
 
-server-no-docker: # Базовая команда для запуска сервиса без докера.
+migrate-no-docker: # Выполнение миграций Django без докера
+	poetry run python backend/manage.py migrate --settings core.settings_for_tests
+
+createsuperuser-no-docker: # Создать супер пользователя без докера
+	poetry run python backend/manage.py createsuperuser --settings core.settings_for_tests --noinput
+
+collectstatic-no-docker:
+	poetry run python backend/manage.py collectstatic --settings core.settings_for_tests --no-input
+
+start-no-docker: # Базовая команда для запуска сервиса без докера.
 	poetry run python backend/manage.py runserver --settings core.settings_for_tests
+
+clear-no-docker: # Базовая команда для запуска сервиса без докера.
+	poetry run python backend/manage.py flush --settings core.settings_for_tests --no-input
+
+server-no-docker: # Базовая команда для запуска БД, миграций без докера
+	make clear-no-docker migrate-no-docker collectstatic-no-docker createsuperuser-no-docker start-no-docker

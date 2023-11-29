@@ -112,20 +112,30 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.LimitOffsetPagination',
 }
 
-# DJOSER = {
-#     'LOGIN_FIELD': 'email',
-#     'HIDE_USERS': True,
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
-#     'SERIALIZERS': {
-#         'user_create': 'users.serializers.UserRegistrationSerializer',
-#         'user': 'users.serializers.UserSerializer',
-#         'current_user': 'users.serializers.UserSerializer',
-#     },
-#     'PERMISSIONS': {
-#         'user_list': ['rest_framework.permissions.IsAdminUser'],
-#     }
-# }
+# EMAIL CONFIG
+EMAIL_BACKEND = env.str("EMAIL_BACKEND",
+                        default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = env.str("EMAIL_HOST", default="smtp.yandex.ru")
+EMAIL_PORT = env.str("EMAIL_PORT", default="465")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="email_username")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="email_password")
+EMAIL_USE_SSL = env.str("EMAIL_USE_SSL", default=True)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'HIDE_USERS': False,
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.UserRegistrationSerializer',
+        'user': 'users.serializers.UserSerializer',
+        'current_user': 'users.serializers.UserSerializer',
+    },
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.IsAuthenticated'],
+    }
+}
 
 
 LANGUAGE_CODE = 'en-us'
@@ -145,7 +155,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
