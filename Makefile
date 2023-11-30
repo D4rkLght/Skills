@@ -37,6 +37,9 @@ clear: # Очистка контейнеров сервиса
 		docker compose -f infra/dev/docker-compose.local.yaml down --volumes; \
 	fi
 
+makemigrations: # Выполнение миграций Django
+	docker exec backend-container-skills poetry run python manage.py makemigrations
+
 migrate: # Выполнение миграций Django
 	docker exec backend-container-skills poetry run python manage.py migrate
 

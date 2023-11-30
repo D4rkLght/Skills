@@ -5,9 +5,12 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
+
 from api.v1.views import (
+    SkillViewSet,
     MyUsersViewSet,
     UserActivationView,
+    UserSkillViewSet,
 )
 
 app_name = "v1"
@@ -25,6 +28,10 @@ schema_view = get_schema_view(
 
 router_v1 = DefaultRouter()
 router_v1.register("users", MyUsersViewSet, basename="users")
+
+router_v1.register("skills", SkillViewSet)
+router_v1.register("userskills", UserSkillViewSet, basename="userskills")
+
 
 urlpatterns = [
     re_path(

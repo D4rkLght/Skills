@@ -4,6 +4,17 @@ from djoser.views import UserViewSet
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from rest_framework import viewsets
+
+# from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import get_object_or_404
+
+# from django_filters.rest_framework import DjangoFilterBackend
+
+from users.models import UserSkill, UserProfile
+from skills.models import Skill
+from api.v1.serializers import SkillSerializer, UserSkillSerializer
+
 
 User = get_user_model()
 
@@ -24,3 +35,26 @@ class UserActivationView(APIView):
 
 class MyUsersViewSet(UserViewSet):
     """Вьюсет пользователя."""
+
+
+class SkillViewSet(viewsets.ModelViewSet):
+    """Добавить описание."""
+
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
+
+
+#   pagination_class = PageNumberPagination
+#   filter_backends = (DjangoFilterBackend,)
+#   filterset_fields = ('category',)
+
+
+class UserSkillViewSet(viewsets.ModelViewSet):
+    """Добавить описание."""
+
+    serializer_class = UserSkillSerializer
+
+    def get_queryset(self):
+        """Добавить описание."""
+        profile = get_object_or_404(UserProfile, user=self.request.user)
+        return UserSkill.objects.filter(user_profile=profile)

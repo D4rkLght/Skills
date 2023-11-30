@@ -53,7 +53,7 @@ class UserProfile(models.Model):
         verbose_name_plural = "Данные пользователя"
 
     def __str__(self):
-        return self.user.username
+        return f"Профайл {self.user.username}"
 
 
 class UserSkill(models.Model):
