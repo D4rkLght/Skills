@@ -5,14 +5,20 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-from api.v1.views import SkillViewSet, UserSkillViewSet
+
+from api.v1.views import (
+    SkillViewSet,
+    MyUsersViewSet,
+    UserActivationView,
+    UserSkillViewSet,
+)
 
 app_name = "v1"
 
 api_info = openapi.Info(
     title="Skills API",
     default_version="v1",
-    description="Документация для проекта Bridge",
+    description="Документация для проекта Skills",
 )
 
 schema_view = get_schema_view(
@@ -21,9 +27,10 @@ schema_view = get_schema_view(
 )
 
 router_v1 = DefaultRouter()
+router_v1.register("users", MyUsersViewSet, basename="users")
 
-router_v1.register('skills', SkillViewSet)
-router_v1.register('userskills', UserSkillViewSet, basename='userskills')
+router_v1.register("skills", SkillViewSet)
+router_v1.register("userskills", UserSkillViewSet, basename="userskills")
 
 
 urlpatterns = [

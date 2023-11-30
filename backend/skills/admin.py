@@ -1,12 +1,8 @@
 from django.contrib import admin
 
-from skills.models import ResourceLibrary, SkillGroup, Specialization, PostLevel, Skill
+from skills.models import ResourceLibrary, Skill, SkillGroup, Specialization
 
-# Register your models here.
 admin.site.register(ResourceLibrary)
 admin.site.register(SkillGroup)
-
 admin.site.register(Specialization)
 admin.site.register(Skill)
-
-admin.site.register(PostLevel)
