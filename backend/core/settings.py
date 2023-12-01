@@ -24,6 +24,7 @@ DEFAULT_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_filters'
 ]
 
 LOCAL_APPS = [
@@ -77,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+
 DATABASES = {
     "default": {
         "ENGINE": env.str("POSTGRES_ENGINE", default="django.db.backends.postgresql"),
@@ -112,6 +114,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication"
 
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
 }
 
 AUTHENTICATION_BACKENDS = [
