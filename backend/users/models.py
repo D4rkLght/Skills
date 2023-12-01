@@ -7,9 +7,9 @@ from skills.models import Skill, Specialization
 class User(AbstractUser):
     """Добавить описание."""
 
-    trecker_id = models.CharField(
-        unique=True, verbose_name="ID Яндекс Трекера", max_length=200
-    )
+    # trecker_id = models.CharField(
+    #     unique=True, verbose_name="ID Яндекс Трекера", max_length=200
+    # )
 
     class Meta:
         verbose_name = "Пользователь"

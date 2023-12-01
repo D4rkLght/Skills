@@ -37,6 +37,10 @@ EXTERNAL_APPS = [
     "djoser",
     "drf_yasg",
     "rest_framework",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.yandex",
 ]
 
 
@@ -50,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware"
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -104,9 +109,28 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication"
+
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
 }
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+SOCIALACCOUNT_PROVIDERS = {
+    "yandex": {
+
+        'APP': {
+            'client_id': env.str("YANDEX_OAUTH2_CLIENT_KEY", default="xcvb7ewrtw7yuud58o3asvsihyeqx"),
+            'secret': env.str("YANDEX_OAUTH2_CLIENT_SECRET", default="xybr8q91j235jhnviwytjsgkxp39kshwu"),
+            'key': ''
+        }
+    }
+}
+LOGIN_URL = "/accounts/login"
+LOGIN_REDIRECT_URL = "/"
+
 
 # EMAIL CONFIG
 EMAIL_BACKEND = env.str(
