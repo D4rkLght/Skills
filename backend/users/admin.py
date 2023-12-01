@@ -8,6 +8,7 @@ admin.site.register(UserSkill)
 
 class EnrollmentInline(admin.StackedInline):
     """Вспомогальельный класс для отображения ресурсов пользователя."""
+
     model = UserResources
     extra = 0
 
@@ -15,6 +16,7 @@ class EnrollmentInline(admin.StackedInline):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     """Админка профайла пользователя."""
+
     inlines = [
         EnrollmentInline
     ]

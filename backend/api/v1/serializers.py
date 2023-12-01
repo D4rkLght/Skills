@@ -51,7 +51,7 @@ class LevelSerializer(serializers.ModelSerializer):
 
 class ResourceLibrarySerializer(serializers.ModelSerializer):
     """Отображение библиотек на дашборде."""
-    
+
     class Meta:
         model = ResourceLibrary
         fields = "__all__"
