@@ -7,13 +7,14 @@ admin.site.register(UserSkill)
 
 
 class EnrollmentInline(admin.StackedInline):
+    """Вспомогальельный класс для отображения ресурсов пользователя."""
     model = UserResources
     extra = 0
 
 
 @admin.register(UserProfile)
-class CourceAdmin(admin.ModelAdmin):
+class UserProfileAdmin(admin.ModelAdmin):
+    """Админка профайла пользователя."""
     inlines = [
         EnrollmentInline
     ]
-    exclude = ('timetable',)

@@ -131,4 +131,4 @@ class UserResources(models.Model):
         verbose_name_plural = "Ресурсы пользователя"
 
     def __str__(self):
-        return f"Пользователь {self.profile} ресурс {self.resource} {self.status}"
+        return f"{self.profile} ресурс {self.resource} {self.status}."

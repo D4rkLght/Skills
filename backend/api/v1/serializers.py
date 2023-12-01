@@ -51,6 +51,7 @@ class LevelSerializer(serializers.ModelSerializer):
 
 class ResourceLibrarySerializer(serializers.ModelSerializer):
     """Отображение библиотек на дашборде."""
+    
     class Meta:
         model = ResourceLibrary
         fields = "__all__"
@@ -121,6 +122,7 @@ class SkillDetailSerializer(serializers.ModelSerializer):
 
 class LibrarySerializer(serializers.ModelSerializer):
     """Отображение отдельно библиотек."""
+
     skills = SkillSerializer(many=True, source='resource_library')
 
     class Meta:
