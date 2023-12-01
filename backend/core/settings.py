@@ -75,13 +75,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-"""
-DATABASES = {
     "default": {
         "ENGINE": env.str("POSTGRES_ENGINE", default="django.db.backends.postgresql"),
         "NAME": env.str("POSTGRES_NAME", default="postgres"),
@@ -91,7 +84,7 @@ DATABASES = {
         "PORT": env.str("POSTGRES_PORT", default="5432"),
     }
 }
-"""
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
