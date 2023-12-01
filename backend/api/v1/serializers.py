@@ -25,6 +25,7 @@ class SkillSerializer(serializers.ModelSerializer):
 
     group = GroupSerializer()
     specialization = SpecializationDashbordSerializer()
+
     class Meta:
         model = Skill
         fields = ('id', 'code', 'name', 'level', 'group', 'specialization')
@@ -55,11 +56,11 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class SkillDashbordSerializer(serializers.ModelSerializer):
     """Детальная информация о навыках для дашборда."""
 
     resource_library = ResourceLibrarySerializer(many=True)
+
     class Meta:
         model = Skill
         fields = ("id", "name", "description", "code", "resource_library")
@@ -69,6 +70,7 @@ class UserSkillDashbordSerializer(serializers.ModelSerializer):
     """Список всех навыков для Дашборда."""
 
     skill = SkillDashbordSerializer()
+
     class Meta:
         model = UserSkill
         fields = ("id", "status", "date_from", "date_to", "skill")
@@ -79,12 +81,15 @@ class DashboardSerializer(serializers.ModelSerializer):
 
     current_specialization = SpecializationDashbordSerializer(read_only=True)
     goal_specialization = SpecializationDashbordSerializer(read_only=True)
-    skills = UserSkillDashbordSerializer(source = 'skill_user', many=True)
+    skills = UserSkillDashbordSerializer(source='skill_user', many=True)
 
     class Meta:
         model = UserProfile
-        fields = ("id", "current_specialization", "goal_specialization", "skills")
-
+        fields = (
+            "id",
+            "current_specialization",
+            "goal_specialization",
+            "skills")
 
 
 class SpecializationShortSerializer(serializers.ModelSerializer):
@@ -100,15 +105,31 @@ class SkillDetailSerializer(serializers.ModelSerializer):
 
     resource_library = ResourceLibrarySerializer(many=True)
     specialization = SpecializationShortSerializer()
+
     class Meta:
         model = Skill
         fields = "__all__"
-        fields = ("id", "resource_library", "name", "description", "level", "code", "specialization")
+        fields = (
+            "id",
+            "resource_library",
+            "name",
+            "description",
+            "level",
+            "code",
+            "specialization")
 
 
 class LibrarySerializer(serializers.ModelSerializer):
     """Отображение отдельно библиотек."""
     skills = SkillSerializer(many=True, source='resource_library')
+
     class Meta:
         model = ResourceLibrary
-        fields = ("id", "type", "description", "learning_time", "url", "skills",)
+        fields = (
+            "id",
+            "type",
+            "description",
+            "learning_time",
+            "url",
+            "skills",
+        )

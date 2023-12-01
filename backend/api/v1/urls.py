@@ -38,9 +38,6 @@ router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
 router_v1.register("libraries", LibraryViewSet, basename="library")
 
 
-
-
-
 urlpatterns = [
     re_path(
         r"activate/(?P<uid>[\w-]+)/(?P<token>[\w-]+)/$",
@@ -49,7 +46,7 @@ urlpatterns = [
     path("", include(router_v1.urls)),
     path("", include("djoser.urls.base")),
     path("auth/", include("djoser.urls.jwt")),
-    path('skills/', SkillViewSet.as_view({'get':'list'})),
+    path('skills/', SkillViewSet.as_view({'get': 'list'})),
     path('skills/<int:pk>/', SkillDetail.as_view()),
 ]
 

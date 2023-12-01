@@ -65,8 +65,12 @@ class Specialization(models.Model):
 class Skill(models.Model):
     """Навыки."""
 
-    SKILL_TYPE = [("soft", "Софт скилл"), ("hard", "Хард скилл")]
-    SKILL_LEVEL = [("start", "Базовый"), ("middle", "Средний"), ("senior", "Продвинутый")]
+    SKILL_TYPE = [("soft", "Софт скилл"),
+                  ("hard", "Хард скилл")]
+
+    SKILL_LEVEL = [("start", "Базовый"),
+                   ("middle", "Средний"),
+                   ("senior", "Продвинутый")]
 
     name = models.CharField(max_length=50, verbose_name="Название навыка")
     description = models.TextField()

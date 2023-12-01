@@ -46,7 +46,10 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('level', 'specialization', 'specialization__level_name')
+    filterset_fields = (
+        'level',
+        'specialization',
+        'specialization__level_name')
 
 
 class UserSkillViewSet(viewsets.ReadOnlyModelViewSet):
@@ -75,8 +78,8 @@ class DashboardViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         """Навыки текущего пользователя."""
         return UserProfile.objects.filter(user=self.request.user)
-    
-    
+
+
 class SkillDetail(generics.RetrieveAPIView):
     """Список всех навыков."""
 
