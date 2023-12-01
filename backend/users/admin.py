@@ -1,8 +1,21 @@
 from django.contrib import admin
 
-from users.models import UserProfile, UserSkill, User
+from users.models import UserProfile, UserSkill, User, UserResources
 
 admin.site.register(User)
 
-admin.site.register(UserProfile)
+#admin.site.register(UserProfile)
 admin.site.register(UserSkill)
+#admin.site.register(UserResources)
+
+
+class EnrollmentInline(admin.StackedInline):
+    model = UserResources
+    extra = 0
+
+@admin.register(UserProfile)
+class CourceAdmin(admin.ModelAdmin):
+    inlines = [
+        EnrollmentInline
+    ]
+    exclude = ('timetable',)

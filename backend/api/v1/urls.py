@@ -11,6 +11,10 @@ from api.v1.views import (
     MyUsersViewSet,
     UserActivationView,
     UserSkillViewSet,
+    LevelViewSet,
+    DashboardViewSet,
+    SkillDetail,
+    LibraryViewSet
 )
 
 app_name = "v1"
@@ -28,9 +32,13 @@ schema_view = get_schema_view(
 
 router_v1 = DefaultRouter()
 router_v1.register("users", MyUsersViewSet, basename="users")
-
-router_v1.register("skills", SkillViewSet)
 router_v1.register("userskills", UserSkillViewSet, basename="userskills")
+router_v1.register("levels", LevelViewSet, basename="level")
+router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
+router_v1.register("libraries", LibraryViewSet, basename="library")
+
+
+
 
 
 urlpatterns = [
@@ -41,6 +49,8 @@ urlpatterns = [
     path("", include(router_v1.urls)),
     path("", include("djoser.urls.base")),
     path("auth/", include("djoser.urls.jwt")),
+    path('skills/', SkillViewSet.as_view({'get':'list'})),
+    path('skills/<int:pk>/', SkillDetail.as_view()),
 ]
 
 urlpatterns += [

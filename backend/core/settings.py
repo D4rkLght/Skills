@@ -24,6 +24,7 @@ DEFAULT_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_filters'
 ]
 
 LOCAL_APPS = [
@@ -72,6 +73,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+"""
 DATABASES = {
     "default": {
         "ENGINE": env.str("POSTGRES_ENGINE", default="django.db.backends.postgresql"),
@@ -82,7 +91,7 @@ DATABASES = {
         "PORT": env.str("POSTGRES_PORT", default="5432"),
     }
 }
-
+"""
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -105,7 +114,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+  #  "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
 }
 
 # EMAIL CONFIG

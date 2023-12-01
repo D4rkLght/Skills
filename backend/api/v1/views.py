@@ -3,17 +3,20 @@ from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 
 from rest_framework import viewsets
 
 # from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 
-# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend
 
 from users.models import UserSkill, UserProfile
-from skills.models import Skill
-from api.v1.serializers import SkillSerializer, UserSkillSerializer
+from skills.models import Skill, Specialization, ResourceLibrary
+from api.v1.serializers import (SkillSerializer, UserSkillSerializer,
+                                LevelSerializer, DashboardSerializer,
+                                SkillDetailSerializer, LibrarySerializer)
 
 
 User = get_user_model()
@@ -37,24 +40,52 @@ class MyUsersViewSet(UserViewSet):
     """Вьюсет пользователя."""
 
 
-class SkillViewSet(viewsets.ModelViewSet):
-    """Добавить описание."""
+class SkillViewSet(viewsets.ReadOnlyModelViewSet):
+    """Список всех навыков."""
 
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('level', 'specialization', 'specialization__level_name')
 
 
-#   pagination_class = PageNumberPagination
-#   filter_backends = (DjangoFilterBackend,)
-#   filterset_fields = ('category',)
-
-
-class UserSkillViewSet(viewsets.ModelViewSet):
-    """Добавить описание."""
+class UserSkillViewSet(viewsets.ReadOnlyModelViewSet):
+    """Навыки пользователя."""
 
     serializer_class = UserSkillSerializer
 
     def get_queryset(self):
-        """Добавить описание."""
+        """Навыки текущего пользователя."""
         profile = get_object_or_404(UserProfile, user=self.request.user)
         return UserSkill.objects.filter(user_profile=profile)
+
+
+class LevelViewSet(viewsets.ReadOnlyModelViewSet):
+    """Список уровней должности."""
+
+    queryset = Specialization.objects.all()
+    serializer_class = LevelSerializer
+
+
+class DashboardViewSet(viewsets.ReadOnlyModelViewSet):
+    """Основаня страница пользователя."""
+
+    serializer_class = DashboardSerializer
+
+    def get_queryset(self):
+        """Навыки текущего пользователя."""
+        return UserProfile.objects.filter(user=self.request.user)
+    
+    
+class SkillDetail(generics.RetrieveAPIView):
+    """Список всех навыков."""
+
+    queryset = Skill.objects.all()
+    serializer_class = SkillDetailSerializer
+
+
+class LibraryViewSet(viewsets.ReadOnlyModelViewSet):
+    """Список уровней должности."""
+
+    queryset = ResourceLibrary.objects.all()
+    serializer_class = LibrarySerializer
