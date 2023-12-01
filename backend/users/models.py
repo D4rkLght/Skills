@@ -1,11 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from skills.models import Skill, Specialization
+from skills.models import Skill, Specialization, ResourceLibrary
 
 
 class User(AbstractUser):
-    """Добавить описание."""
+    """Модель пользователя."""
 
     trecker_id = models.CharField(
         unique=True, verbose_name="ID Яндекс Трекера", max_length=200
@@ -20,7 +20,7 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    """Добавить описание."""
+    """Модель профессии пользователя."""
 
     user = models.ForeignKey(
         User,
@@ -47,6 +47,12 @@ class UserProfile(models.Model):
         on_delete=models.SET_DEFAULT,
         default=0,
     )
+    resources = models.ManyToManyField(
+        ResourceLibrary,
+        through="UserResources",
+        verbose_name="Изученные ресурсы",
+        related_name="user_recources",
+    )
 
     class Meta:
         verbose_name = "Данные пользователя"
@@ -57,7 +63,7 @@ class UserProfile(models.Model):
 
 
 class UserSkill(models.Model):
-    """Добавить описание."""
+    """Модель навыков пользователя."""
 
     SKILL_STATUS = [
         ("start", "Добавлен"),
@@ -97,3 +103,32 @@ class UserSkill(models.Model):
 
     def __str__(self):
         return f"Пользователь {self.user_profile}"
+
+
+class UserResources(models.Model):
+    """Модель ресурсов пользователя."""
+
+    RESOURCE_STATUS = [
+        ("done", "Изучен"),
+        ("process", "В процессе"),
+    ]
+
+    profile = models.ForeignKey(
+        UserProfile,
+        verbose_name="Пользователь",
+        related_name="resource_user",
+        on_delete=models.CASCADE,)
+    resource = models.ForeignKey(
+        ResourceLibrary,
+        verbose_name="Ресурс",
+        related_name="user_resource",
+        on_delete=models.CASCADE,
+    )
+    status = models.CharField(max_length=8, choices=RESOURCE_STATUS)
+
+    class Meta:
+        verbose_name = "Ресурс пользователя"
+        verbose_name_plural = "Ресурсы пользователя"
+
+    def __str__(self):
+        return f"{self.profile} ресурс {self.resource} {self.status}."

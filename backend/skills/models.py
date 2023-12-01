@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ResourceLibrary(models.Model):
-    """Добавить описание."""
+    """Ресурсы библиотеки."""
 
     RESOURCE_TYPE = [
         ("course", "Курс"),
@@ -25,7 +25,7 @@ class ResourceLibrary(models.Model):
 
 
 class SkillGroup(models.Model):
-    """Добавить описание."""
+    """Группы навыков."""
 
     name = models.CharField(max_length=100)
 
@@ -38,7 +38,7 @@ class SkillGroup(models.Model):
 
 
 class Specialization(models.Model):
-    """Добавить описание."""
+    """Профессии."""
 
     POST_LEVEL_NAMES = [
         ("none", "Не знаю"),
@@ -63,9 +63,14 @@ class Specialization(models.Model):
 
 
 class Skill(models.Model):
-    """Добавить описание."""
+    """Навыки."""
 
-    SKILL_TYPE = [("soft", "Софт скилл"), ("hard", "Хард скилл")]
+    SKILL_TYPE = [("soft", "Софт скилл"),
+                  ("hard", "Хард скилл")]
+
+    SKILL_LEVEL = [("start", "Базовый"),
+                   ("middle", "Средний"),
+                   ("senior", "Продвинутый")]
 
     name = models.CharField(max_length=50, verbose_name="Название навыка")
     description = models.TextField()
@@ -83,6 +88,9 @@ class Skill(models.Model):
     )
     type = models.CharField(
         max_length=4, choices=SKILL_TYPE, verbose_name="Тип навыка"
+    )
+    level = models.CharField(
+        max_length=6, choices=SKILL_LEVEL, verbose_name="Уровень навыка"
     )
     code = models.IntegerField()
     date_from = models.DateField(verbose_name="Дата начала действия навыка")
