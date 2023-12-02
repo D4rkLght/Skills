@@ -1,0 +1,3 @@
+GET http://127.0.0.1:8000/api/v1/
+# Content-Type: application/json;
+Authorization: Bearer ngzkcv7yj64s7we14xtw0v0z1v0afsmj

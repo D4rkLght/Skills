@@ -32,7 +32,6 @@ class SkillsViewTests(BaseCaseForSkillsTests):
         response = self.client.post(
             reverse("api:v1:users-list"),
             {
-                "trecker_id": "trecker",
                 "email": "user@example1.com",
                 "username": "user1",
                 "password": "sfafs23efdssa",

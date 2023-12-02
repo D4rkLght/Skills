@@ -7,7 +7,6 @@ User = get_user_model()
 
 
 class BaseCaseForSkillsTests(APITestCase):
-    TRICKER_ID = "trecker_id"
     USERNAME = "auth_user"
     EMAIL = "auth_user@example.com"
     PASSWORD = "password"
@@ -22,7 +21,6 @@ class BaseCaseForSkillsTests(APITestCase):
             email=cls.EMAIL,
             username=cls.USERNAME,
             password=cls.PASSWORD,
-            trecker_id=cls.TRICKER_ID,
         )
         refresh = RefreshToken.for_user(user=user)
         cls.auth_client.credentials(

@@ -7,9 +7,9 @@ from skills.models import Skill, Specialization, ResourceLibrary
 class User(AbstractUser):
     """Модель пользователя."""
 
-    trecker_id = models.CharField(
-        unique=True, verbose_name="ID Яндекс Трекера", max_length=200
-    )
+    # trecker_id = models.CharField(
+    #     unique=True, verbose_name="ID Яндекс Трекера", max_length=200
+    # )
 
     class Meta:
         verbose_name = "Пользователь"
@@ -117,7 +117,8 @@ class UserResources(models.Model):
         UserProfile,
         verbose_name="Пользователь",
         related_name="resource_user",
-        on_delete=models.CASCADE,)
+        on_delete=models.CASCADE,
+    )
     resource = models.ForeignKey(
         ResourceLibrary,
         verbose_name="Ресурс",

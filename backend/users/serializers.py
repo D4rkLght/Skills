@@ -20,17 +20,6 @@ class UserRegistrationSerializer(UserCreateSerializer):
             ),
         ),
     )
-    trecker_id = serializers.CharField(
-        max_length=200,
-        required=True,
-        validators=(
-            RegexValidator(r"^[\w.@+-]+$", message="Проверьте trecker_id!"),
-            UniqueValidator(
-                queryset=User.objects.all(),
-                message="Пользователь с таким trecker_id уже существует",
-            ),
-        ),
-    )
     username = serializers.CharField(
         max_length=150,
         required=True,
@@ -47,7 +36,6 @@ class UserRegistrationSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         fields = (
             "id",
-            "trecker_id",
             "email",
             "username",
             "password",
@@ -63,7 +51,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "email",
             "id",
-            "trecker_id",
             "username",
             "first_name",
             "last_name",
