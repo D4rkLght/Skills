@@ -55,6 +55,12 @@ fixtures:
 server-init: # Базовая команда для запуска БД, миграций, сервиса.
 	make clear start migrate collectstatic createsuperuser
 
+create-resource: # Команда для создания профессий
+	poetry run python backend/manage.py create_resources --settings core.settings_for_tests --amount ${amount}
+
+create-skills: # Команда для создания профессий
+	poetry run python backend/manage.py create_skills --settings core.settings_for_tests --amount ${amount}
+
 migrate-no-docker: # Выполнение миграций Django без докера
 	poetry run python backend/manage.py migrate --settings core.settings_for_tests
 
