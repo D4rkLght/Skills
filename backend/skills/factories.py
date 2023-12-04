@@ -6,7 +6,7 @@ from factory.django import DjangoModelFactory
 from faker.providers import BaseProvider
 from factory.fuzzy import FuzzyInteger, FuzzyChoice
 
-from skills.models import ResourceLibrary, SkillGroup, Specialization, Skill
+from models import ResourceLibrary, SkillGroup, Specialization, Skill
 
 LOW_LIMIT = 5
 HIGH_LIMIT = 15

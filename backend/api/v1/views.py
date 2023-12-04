@@ -74,6 +74,7 @@ class DashboardViewSet(viewsets.ReadOnlyModelViewSet):
     """Основаня страница пользователя."""
 
     serializer_class = DashboardSerializer
+    pagination_class = None
 
     def get_queryset(self):
         """Навыки текущего пользователя."""
