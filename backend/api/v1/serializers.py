@@ -110,13 +110,13 @@ class DashboardSerializer(serializers.ModelSerializer):
         )
 
     def get_skills(self, obj):
-        """получение списка софт скиллов."""
+        """Получение списка софт скиллов."""
 
         queryset = obj.skill_user.all()[:6]
         return UserSkillDashbordSerializer(queryset, many=True).data
 
     def get_user_learning_time(self, obj):
-        """получение суммарного времени обучения."""
+        """Получение суммарного времени обучения."""
 
         queryset = UserResources.objects.filter(profile=obj, status='done')
         count_time = 0
@@ -125,22 +125,22 @@ class DashboardSerializer(serializers.ModelSerializer):
         return count_time
 
     def get_user_skills_count(self, obj):
-        """получение количества скиллов."""
+        """Получение количества скиллов."""
 
         return obj.skills.count()
 
     def get_user_hard_skills_count(self, obj):
-        """получение количества хард скиллов."""
+        """Получение количества хард скиллов."""
 
         return obj.skills.filter(type='hard').count()
 
     def get_user_soft_skills_count(self, obj):
-        """получение количества софт скиллов."""
+        """Получение количества софт скиллов."""
 
         return obj.skills.filter(type='soft').count()
 
     def get_percent_studied(self, obj):
-        """получение процента изученных материалов."""
+        """Получение процента изученных материалов."""
 
         studied_count = len(
             UserResources.objects.filter(
