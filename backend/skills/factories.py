@@ -6,7 +6,7 @@ from factory.django import DjangoModelFactory
 from faker.providers import BaseProvider
 from factory.fuzzy import FuzzyInteger, FuzzyChoice
 
-from models import ResourceLibrary, SkillGroup, Specialization, Skill
+from skills.models import ResourceLibrary, SkillGroup, Specialization, Skill
 
 LOW_LIMIT = 5
 HIGH_LIMIT = 15
@@ -22,10 +22,16 @@ class Provider(BaseProvider):
     """Provider для создания данных."""
 
     skills_type = ["Django", "Html", "Css", "Docker", "JS"]
-
+    specialization = ['Разработчик', 'Дизайнер', 'Тестировщик', 'Аналитик', 'Продукт менеджер']
+    
     def skill_types(self):
         """Типы технологий."""
         return self.random_element(self.skills_type)
+    
+
+    def specializations(self):
+        """Сферы работы."""
+        return self.random_element(self.specialization)
 
 
 factory.Faker.add_provider(Provider)
@@ -60,7 +66,7 @@ class SpecializationFactory(DjangoModelFactory):
         model = Specialization
         django_get_or_create = ("name",)
 
-    name = factory.Faker("job")
+    name = factory.Faker("specializations")
     code = FuzzyInteger(1, 1111)
     level_code = FuzzyInteger(1, 1111)
     level_name = FuzzyChoice(POST_LEVEL_IDS)
