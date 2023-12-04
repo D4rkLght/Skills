@@ -206,6 +206,7 @@ class UserCreateSkillSerializer(serializers.ModelSerializer):
         fields = ("skill", "status")
 
     def validate(self, data):
+        """Проверка, что такого скилла у пользователя еще нет."""
         profile = UserProfile.objects.get(user=self.context['request'].user)
         if UserSkill.objects.filter(
                 user_profile=profile,
