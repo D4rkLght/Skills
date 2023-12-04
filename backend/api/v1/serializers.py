@@ -1,7 +1,6 @@
 from rest_framework import serializers
-
-from skills.models import Skill, SkillGroup, ResourceLibrary
-from users.models import UserSkill, Specialization, UserProfile, UserResources
+from skills.models import ResourceLibrary, Skill, SkillGroup
+from users.models import Specialization, UserProfile, UserResources, UserSkill
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -208,11 +207,13 @@ class UserCreateSkillSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         profile = UserProfile.objects.get(user=self.context['request'].user)
-        if UserSkill.objects.filter(user_profile=profile, skill = data['skill']).exists():
+        if UserSkill.objects.filter(
+                user_profile=profile,
+                skill=data['skill']).exists():
             raise serializers.ValidationError(
-                'Такой навык уже существует!') 
+                'Такой навык уже существует!')
         return data
-    
+
 
 class UserUpdateSkillSerializer(serializers.ModelSerializer):
     """Изменение статуса навыка пользователя."""

@@ -1,25 +1,19 @@
 import requests
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
+from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import generics
 
-from rest_framework import viewsets
-
-# from rest_framework.pagination import PageNumberPagination
-from django.shortcuts import get_object_or_404
-
-from django_filters.rest_framework import DjangoFilterBackend
-
-from users.models import UserSkill, UserProfile
-from skills.models import Skill, Specialization, ResourceLibrary
-from api.v1.serializers import (SkillSerializer, UserSkillSerializer,
-                                LevelSerializer, DashboardSerializer,
-                                SkillDetailSerializer, LibrarySerializer,
-                                ShortUserSkillSerializer, UserCreateSkillSerializer,
+from skills.models import ResourceLibrary, Skill, Specialization
+from users.models import UserProfile, UserSkill
+from api.v1.serializers import (DashboardSerializer, LevelSerializer,
+                                LibrarySerializer, ShortUserSkillSerializer,
+                                SkillDetailSerializer, SkillSerializer,
+                                UserCreateSkillSerializer, UserSkillSerializer,
                                 UserUpdateSkillSerializer)
-
 
 User = get_user_model()
 
@@ -63,12 +57,13 @@ class UserSkillViewSet(viewsets.ReadOnlyModelViewSet):
         """Навыки текущего пользователя."""
         profile = get_object_or_404(UserProfile, user=self.request.user)
         return UserSkill.objects.filter(user_profile=profile)
-    
+
 
 class ShortUserSkillViewSet(viewsets.ModelViewSet):
     """Навыки пользователя сокращенный вид."""
 
     def get_serializer_class(self):
+        """Получение класса сериализатора."""
         if self.request.method == "GET":
             return ShortUserSkillSerializer
         elif self.request.method == "POST":
@@ -82,6 +77,7 @@ class ShortUserSkillViewSet(viewsets.ModelViewSet):
         return UserSkill.objects.filter(user_profile=profile)
 
     def perform_create(self, serializer):
+        """Переопределение метода save."""
         profile = get_object_or_404(UserProfile, user=self.request.user)
         serializer.save(user_profile=profile)
 
