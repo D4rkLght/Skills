@@ -1,7 +1,6 @@
 from rest_framework import serializers
-
-from skills.models import Skill, SkillGroup, ResourceLibrary
-from users.models import UserSkill, Specialization, UserProfile
+from skills.models import ResourceLibrary, Skill, SkillGroup
+from users.models import Specialization, UserProfile, UserResources, UserSkill
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -60,11 +59,16 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
 class SkillDashbordSerializer(serializers.ModelSerializer):
     """Детальная информация о навыках для дашборда."""
 
-    resource_library = ResourceLibrarySerializer(many=True)
+    resource_library = serializers.SerializerMethodField()
 
     class Meta:
         model = Skill
         fields = ("id", "name", "description", "code", "resource_library")
+
+    def get_resource_library(self, obj):
+        """получение всех ресурсов пользователя."""
+        queryset = obj.resource_library.all()[:1]
+        return ResourceLibrarySerializer(queryset, many=True).data
 
 
 class UserSkillDashbordSerializer(serializers.ModelSerializer):
@@ -82,7 +86,12 @@ class DashboardSerializer(serializers.ModelSerializer):
 
     current_specialization = SpecializationDashbordSerializer(read_only=True)
     goal_specialization = SpecializationDashbordSerializer(read_only=True)
-    skills = UserSkillDashbordSerializer(source='skill_user', many=True)
+    skills = serializers.SerializerMethodField()
+    user_learning_time = serializers.SerializerMethodField()
+    user_skills_count = serializers.SerializerMethodField()
+    user_hard_skills_count = serializers.SerializerMethodField()
+    user_soft_skills_count = serializers.SerializerMethodField()
+    percent_studied = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -90,7 +99,49 @@ class DashboardSerializer(serializers.ModelSerializer):
             "id",
             "current_specialization",
             "goal_specialization",
-            "skills")
+            "user_learning_time",
+            "user_skills_count",
+            "user_hard_skills_count",
+            "user_soft_skills_count",
+            "percent_studied",
+            "skills",
+        )
+
+    def get_skills(self, obj):
+        """Получение списка софт скиллов."""
+        queryset = obj.skill_user.all()[:6]
+        return UserSkillDashbordSerializer(queryset, many=True).data
+
+    def get_user_learning_time(self, obj):
+        """Получение суммарного времени обучения."""
+        queryset = UserResources.objects.filter(profile=obj, status='done')
+        count_time = 0
+        for item in queryset:
+            count_time += item.resource.learning_time
+        return count_time
+
+    def get_user_skills_count(self, obj):
+        """Получение количества скиллов."""
+        return obj.skills.count()
+
+    def get_user_hard_skills_count(self, obj):
+        """Получение количества хард скиллов."""
+        return obj.skills.filter(type='hard').count()
+
+    def get_user_soft_skills_count(self, obj):
+        """Получение количества софт скиллов."""
+        return obj.skills.filter(type='soft').count()
+
+    def get_percent_studied(self, obj):
+        """Получение процента изученных материалов."""
+        studied_count = len(
+            UserResources.objects.filter(
+                profile=obj, status='done'))
+        queryset = Skill.objects.filter(specialization=obj.goal_specialization)
+        goal_studied_count = 0
+        for item in queryset:
+            goal_studied_count += item.resource_library.count()
+        return int(studied_count * 100 / goal_studied_count)
 
 
 class SpecializationShortSerializer(serializers.ModelSerializer):
@@ -135,3 +186,39 @@ class LibrarySerializer(serializers.ModelSerializer):
             "url",
             "skills",
         )
+
+
+class ShortUserSkillSerializer(serializers.ModelSerializer):
+    """Навыки пользователя только название."""
+
+    skill = serializers.StringRelatedField()
+
+    class Meta:
+        model = UserSkill
+        fields = ("skill",)
+
+
+class UserCreateSkillSerializer(serializers.ModelSerializer):
+    """Создание навыка пользователя."""
+
+    class Meta:
+        model = UserSkill
+        fields = ("skill", "status")
+
+    def validate(self, data):
+        """Проверка, что такого скилла у пользователя еще нет."""
+        profile = UserProfile.objects.get(user=self.context['request'].user)
+        if UserSkill.objects.filter(
+                user_profile=profile,
+                skill=data['skill']).exists():
+            raise serializers.ValidationError(
+                'Такой навык уже существует!')
+        return data
+
+
+class UserUpdateSkillSerializer(serializers.ModelSerializer):
+    """Изменение статуса навыка пользователя."""
+
+    class Meta:
+        model = UserSkill
+        fields = ("status",)

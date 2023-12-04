@@ -21,11 +21,29 @@ SKILL_LEVEL_IDS = [x[0] for x in Skill.SKILL_LEVEL]
 class Provider(BaseProvider):
     """Provider для создания данных."""
 
-    skills_type = ["Django", "Html", "Css", "Docker", "JS"]
+    skills_name = ["Django", "Html", "Css", "Docker", "JS", "Python", "C++"]
+    skills_group = [
+        "Фрэймворки",
+        "Языки программирования",
+        "Коммуникабельность"]
+    specialization = [
+        'Разработчик',
+        'Дизайнер',
+        'Тестировщик',
+        'Аналитик',
+        'Продукт менеджер']
 
-    def skill_types(self):
-        """Типы технологий."""
-        return self.random_element(self.skills_type)
+    def skill_names(self):
+        """Названия навыков."""
+        return self.random_element(self.skills_name)
+
+    def skill_groups(self):
+        """Группы навыков."""
+        return self.random_element(self.skills_group)
+
+    def specializations(self):
+        """Сферы работы."""
+        return self.random_element(self.specialization)
 
 
 factory.Faker.add_provider(Provider)
@@ -50,7 +68,7 @@ class SkillGroupFactory(DjangoModelFactory):
         model = SkillGroup
         django_get_or_create = ("name",)
 
-    name = factory.Faker("job")
+    name = factory.Faker("skill_groups")
 
 
 class SpecializationFactory(DjangoModelFactory):
@@ -60,7 +78,7 @@ class SpecializationFactory(DjangoModelFactory):
         model = Specialization
         django_get_or_create = ("name",)
 
-    name = factory.Faker("job")
+    name = factory.Faker("specializations")
     code = FuzzyInteger(1, 1111)
     level_code = FuzzyInteger(1, 1111)
     level_name = FuzzyChoice(POST_LEVEL_IDS)
