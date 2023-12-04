@@ -11,10 +11,10 @@ class ResourceLibrary(models.Model):
         ("other", "Другое"),
     ]
 
-    type = models.CharField(max_length=8, choices=RESOURCE_TYPE)
-    description = models.TextField()
-    learning_time = models.IntegerField()
-    url = models.URLField()
+    type = models.CharField(max_length=8, choices=RESOURCE_TYPE, verbose_name='Тип')
+    description = models.TextField(verbose_name='Описание')
+    learning_time = models.IntegerField(verbose_name='Время изучения')
+    url = models.URLField(verbose_name='Ссылка')
 
     class Meta:
         verbose_name = "Библиотека ресурсов"
@@ -27,7 +27,7 @@ class ResourceLibrary(models.Model):
 class SkillGroup(models.Model):
     """Группы навыков."""
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name='Название')
 
     class Meta:
         verbose_name = "Группа навыка"
@@ -49,10 +49,10 @@ class Specialization(models.Model):
         ("sen+", "Senior+"),
     ]
 
-    name = models.CharField(max_length=255, verbose_name="Название")
-    code = models.IntegerField()
-    level_code = models.IntegerField()
-    level_name = models.CharField(max_length=4, choices=POST_LEVEL_NAMES)
+    name = models.CharField(max_length=255, verbose_name="Название должности")
+    code = models.IntegerField(verbose_name='Код профессии')
+    level_code = models.IntegerField(verbose_name='Код уровня')
+    level_name = models.CharField(max_length=4, choices=POST_LEVEL_NAMES, verbose_name='Название уровня')
 
     class Meta:
         verbose_name = "Сфера работы"
@@ -73,7 +73,7 @@ class Skill(models.Model):
                    ("senior", "Продвинутый")]
 
     name = models.CharField(max_length=50, verbose_name="Название навыка")
-    description = models.TextField()
+    description = models.TextField(verbose_name='Описание')
     specialization = models.ForeignKey(
         Specialization,
         verbose_name="Сфера работы",
