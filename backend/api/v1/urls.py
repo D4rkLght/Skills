@@ -14,7 +14,8 @@ from api.v1.views import (
     LevelViewSet,
     DashboardViewSet,
     SkillDetail,
-    LibraryViewSet
+    LibraryViewSet,
+    ShortUserSkillViewSet
 )
 
 app_name = "v1"
@@ -36,6 +37,8 @@ router_v1.register("userskills", UserSkillViewSet, basename="userskills")
 router_v1.register("levels", LevelViewSet, basename="level")
 router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
 router_v1.register("libraries", LibraryViewSet, basename="library")
+router_v1.register("short-userskills", ShortUserSkillViewSet, basename="short-userskills")
+
 
 
 urlpatterns = [

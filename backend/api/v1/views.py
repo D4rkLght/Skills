@@ -16,7 +16,9 @@ from users.models import UserSkill, UserProfile
 from skills.models import Skill, Specialization, ResourceLibrary
 from api.v1.serializers import (SkillSerializer, UserSkillSerializer,
                                 LevelSerializer, DashboardSerializer,
-                                SkillDetailSerializer, LibrarySerializer)
+                                SkillDetailSerializer, LibrarySerializer,
+                                ShortUserSkillSerializer, UserCreateSkillSerializer,
+                                UserUpdateSkillSerializer)
 
 
 User = get_user_model()
@@ -61,6 +63,27 @@ class UserSkillViewSet(viewsets.ReadOnlyModelViewSet):
         """Навыки текущего пользователя."""
         profile = get_object_or_404(UserProfile, user=self.request.user)
         return UserSkill.objects.filter(user_profile=profile)
+    
+
+class ShortUserSkillViewSet(viewsets.ModelViewSet):
+    """Навыки пользователя сокращенный вид."""
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ShortUserSkillSerializer
+        elif self.request.method == "POST":
+            return UserCreateSkillSerializer
+        elif self.request.method == "PATCH":
+            return UserUpdateSkillSerializer
+
+    def get_queryset(self):
+        """Навыки текущего пользователя."""
+        profile = get_object_or_404(UserProfile, user=self.request.user)
+        return UserSkill.objects.filter(user_profile=profile)
+
+    def perform_create(self, serializer):
+        profile = get_object_or_404(UserProfile, user=self.request.user)
+        serializer.save(user_profile=profile)
 
 
 class LevelViewSet(viewsets.ReadOnlyModelViewSet):

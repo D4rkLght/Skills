@@ -187,3 +187,36 @@ class LibrarySerializer(serializers.ModelSerializer):
             "url",
             "skills",
         )
+
+
+class ShortUserSkillSerializer(serializers.ModelSerializer):
+    """Навыки пользователя только название."""
+
+    skill = serializers.StringRelatedField()
+
+    class Meta:
+        model = UserSkill
+        fields = ("skill",)
+
+
+class UserCreateSkillSerializer(serializers.ModelSerializer):
+    """Создание навыка пользователя."""
+
+    class Meta:
+        model = UserSkill
+        fields = ("skill", "status")
+
+    def validate(self, data):
+        profile = UserProfile.objects.get(user=self.context['request'].user)
+        if UserSkill.objects.filter(user_profile=profile, skill = data['skill']).exists():
+            raise serializers.ValidationError(
+                'Такой навык уже существует!') 
+        return data
+    
+
+class UserUpdateSkillSerializer(serializers.ModelSerializer):
+    """Изменение статуса навыка пользователя."""
+
+    class Meta:
+        model = UserSkill
+        fields = ("status",)
