@@ -22,18 +22,24 @@ class Provider(BaseProvider):
     """Provider для создания данных."""
 
     skills_name = ["Django", "Html", "Css", "Docker", "JS", "Python", "C++"]
-    skills_group = ["Фрэймворки", "Языки программирования", "Коммуникабельность"]
-    specialization = ['Разработчик', 'Дизайнер', 'Тестировщик', 'Аналитик', 'Продукт менеджер']
-    
+    skills_group = [
+        "Фрэймворки",
+        "Языки программирования",
+        "Коммуникабельность"]
+    specialization = [
+        'Разработчик',
+        'Дизайнер',
+        'Тестировщик',
+        'Аналитик',
+        'Продукт менеджер']
+
     def skill_names(self):
         """Названия навыков."""
         return self.random_element(self.skills_name)
-    
 
     def skill_groups(self):
         """Группы навыков."""
         return self.random_element(self.skills_group)
-    
 
     def specializations(self):
         """Сферы работы."""

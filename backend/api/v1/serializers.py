@@ -67,7 +67,6 @@ class SkillDashbordSerializer(serializers.ModelSerializer):
         model = Skill
         fields = ("id", "name", "description", "code", "resource_library")
 
-
     def get_resource_library(self, obj):
         queryset = obj.resource_library.all()[:1]
         return ResourceLibrarySerializer(queryset, many=True).data
@@ -107,13 +106,11 @@ class DashboardSerializer(serializers.ModelSerializer):
             "user_soft_skills_count",
             "percent_studied",
             "skills",
-            )
-
+        )
 
     def get_skills(self, obj):
         queryset = obj.skill_user.all()[:6]
         return UserSkillDashbordSerializer(queryset, many=True).data
-
 
     def get_user_learning_time(self, obj):
         queryset = UserResources.objects.filter(profile=obj, status='done')
@@ -121,27 +118,25 @@ class DashboardSerializer(serializers.ModelSerializer):
         for item in queryset:
             count_time += item.resource.learning_time
         return count_time
-    
 
     def get_user_skills_count(self, obj):
         return obj.skills.count()
-    
-    
+
     def get_user_hard_skills_count(self, obj):
         return obj.skills.filter(type='hard').count()
 
-    
     def get_user_soft_skills_count(self, obj):
         return obj.skills.filter(type='soft').count()
-    
-            
+
     def get_percent_studied(self, obj):
-        studied_count = len(UserResources.objects.filter(profile=obj, status='done'))
+        studied_count = len(
+            UserResources.objects.filter(
+                profile=obj, status='done'))
         queryset = Skill.objects.filter(specialization=obj.goal_specialization)
         goal_studied_count = 0
         for item in queryset:
             goal_studied_count += item.resource_library.count()
-        return int(studied_count*100/goal_studied_count)
+        return int(studied_count * 100 / goal_studied_count)
 
 
 class SpecializationShortSerializer(serializers.ModelSerializer):

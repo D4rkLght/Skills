@@ -11,7 +11,10 @@ class ResourceLibrary(models.Model):
         ("other", "Другое"),
     ]
 
-    type = models.CharField(max_length=8, choices=RESOURCE_TYPE, verbose_name='Тип')
+    type = models.CharField(
+        max_length=8,
+        choices=RESOURCE_TYPE,
+        verbose_name='Тип')
     description = models.TextField(verbose_name='Описание')
     learning_time = models.IntegerField(verbose_name='Время изучения')
     url = models.URLField(verbose_name='Ссылка')
@@ -52,7 +55,10 @@ class Specialization(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название должности")
     code = models.IntegerField(verbose_name='Код профессии')
     level_code = models.IntegerField(verbose_name='Код уровня')
-    level_name = models.CharField(max_length=4, choices=POST_LEVEL_NAMES, verbose_name='Название уровня')
+    level_name = models.CharField(
+        max_length=4,
+        choices=POST_LEVEL_NAMES,
+        verbose_name='Название уровня')
 
     class Meta:
         verbose_name = "Сфера работы"
