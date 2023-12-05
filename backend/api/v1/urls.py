@@ -1,21 +1,12 @@
-from api.v1.views import UserActivationView
 from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-
-from api.v1.views import (
-    SkillViewSet,
-    MyUsersViewSet,
-    UserActivationView,
-    UserSkillViewSet,
-    LevelViewSet,
-    DashboardViewSet,
-    SkillDetail,
-    LibraryViewSet
-)
+from api.v1.views import (DashboardViewSet, LevelViewSet, LibraryViewSet,
+                          MyUsersViewSet, ShortUserSkillViewSet, SkillDetail,
+                          SkillViewSet, UserActivationView, UserSkillViewSet)
 
 app_name = "v1"
 
@@ -36,6 +27,10 @@ router_v1.register("userskills", UserSkillViewSet, basename="userskills")
 router_v1.register("levels", LevelViewSet, basename="level")
 router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
 router_v1.register("libraries", LibraryViewSet, basename="library")
+router_v1.register(
+    "short-userskills",
+    ShortUserSkillViewSet,
+    basename="short-userskills")
 
 
 urlpatterns = [
