@@ -53,7 +53,7 @@ fixtures:
 	docker exec backend-container-skills poetry run python manage.py loaddata fixtures/data.json
 
 server-init: # Базовая команда для запуска БД, миграций, сервиса.
-	make clear start migrate collectstatic createsuperuser
+	make clear start migrate collectstatic createsuperuser fixtures
 
 create-resource: # Команда для создания профессий
 	poetry run python backend/manage.py create_resources --settings core.settings_for_tests --amount ${amount}

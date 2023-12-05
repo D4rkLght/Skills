@@ -91,7 +91,7 @@ class SkillFactory(DjangoModelFactory):
         model = Skill
         django_get_or_create = ("name",)
 
-    name = factory.Faker("skill_types")
+    name = factory.Faker("skill_names")
     description = factory.Faker("sentence")
     specialization = factory.SubFactory(SpecializationFactory)
     group = factory.SubFactory(SkillGroupFactory)
