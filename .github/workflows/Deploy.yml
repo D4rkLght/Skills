@@ -29,7 +29,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: hackathon/
-          file: Dockerfile
+          file: hackathon/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/skills_frontend:latest
 
