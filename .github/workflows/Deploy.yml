@@ -13,7 +13,6 @@ jobs:
           refs/heads/develop
         ', github.ref)
     steps:
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -26,16 +25,16 @@ jobs:
       - name: Push to Docker Hub skills_frontend
         uses: docker/build-push-action@v3
         with:
-          context: hackathon/
-          file: hackathon/Dockerfile
+          context: ./hackathon/
+          file: ./hackathon/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/skills_frontend:latest
 
       - name: Push to Docker Hub skills_backend
         uses: docker/build-push-action@v3
         with:
-          context: backend/
-          file: backend/Dockerfile
+          context: ./backend/
+          file: ./backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/skills_backend:latest
 
