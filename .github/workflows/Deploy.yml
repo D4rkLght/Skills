@@ -70,7 +70,6 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker system prune --force
             sudo systemctl stop nginx
             sudo docker compose stop
             sudo docker image pull ${{ secrets.DOCKER_USERNAME }}/skills_backend:latest
