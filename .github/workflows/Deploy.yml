@@ -2,7 +2,7 @@ name: Push Docker image to Docker Hub and deploy workflow
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   build_and_push_to_docker_hub:
@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push to Docker Hub bridge_frontend
+      - name: Push to Docker Hub skills_frontend
         uses: docker/build-push-action@v3
         with:
           context: hackathon/
@@ -48,7 +48,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/skills_frontend:latest
 
-      - name: Push to Docker Hub bridge_backend
+      - name: Push to Docker Hub skills_backend
         uses: docker/build-push-action@v3
         with:
           context: backend/
