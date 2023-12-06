@@ -6,5 +6,5 @@ RUN poetry config virtualenvs.in-project true
 WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN poetry install
-COPY ./backend .
+COPY . .
 CMD [ "poetry", "run", "gunicorn", "core.wsgi:application", "--bind", "0:8000" ]
