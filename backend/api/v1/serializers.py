@@ -34,7 +34,6 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
     """Отображение библиотек на дашборде."""
 
     learning_status = serializers.SerializerMethodField()
-
     class Meta:
         model = ResourceLibrary
         fields = ("id", "type", "description",
