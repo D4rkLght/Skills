@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.shortcuts import get_object_or_404
 from skills.models import ResourceLibrary, Skill, SkillGroup
 from users.models import Specialization, UserProfile, UserResources, UserSkill
 
