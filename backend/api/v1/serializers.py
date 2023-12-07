@@ -37,12 +37,15 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ResourceLibrary
-        fields = ("id", "type", "description", "learning_time", "url", "learning_status")
+        fields = ("id", "type", "description",
+                  "learning_time", "url", "learning_status")
 
 
     def get_learning_status(self, obj):
+        """Получение статуса изучения ресурса."""
         profile = UserProfile.objects.get(user=self.context['request'].user)
-        current_resource = UserResources.objects.filter(resource=obj, profile=profile)
+        current_resource = UserResources.objects.filter(
+            resource=obj, profile=profile)
         if current_resource:
             return current_resource[0].status
         return 'Не добавлен'
@@ -55,7 +58,8 @@ class SkillFrontSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ('id', 'name', 'level', 'group', 'description', 'type', 'resource_library')
+        fields = ('id', 'name', 'level', 'group',
+                  'description', 'type', 'resource_library')
 
 
 class UserSkillSerializer(serializers.ModelSerializer):

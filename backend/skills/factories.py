@@ -100,12 +100,10 @@ class SkillFactory(DjangoModelFactory):
     code = FuzzyInteger(1, 1111)
     date_from = timezone.now()
     resource_library = factory.SubFactory(ResourceLibraryFactory)
- #   date_to = timezone.now()
 
     @factory.post_generation
     def resource_library(self, create, extracted, **kwargs):
         """Генерация resource_library."""
-
         if not create:
             return
         size = randint(MIN_RES_GEN, MAX_RES_GEN)
