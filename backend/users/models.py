@@ -104,6 +104,7 @@ class UserSkill(models.Model):
     class Meta:
         verbose_name = "Скилл пользователя"
         verbose_name_plural = "Скиллы пользователя"
+        ordering = ('id',)
 
     def __str__(self):
         return f"Пользователь {self.user_profile}"

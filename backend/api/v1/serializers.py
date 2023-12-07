@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
 from skills.models import ResourceLibrary, Skill, SkillGroup
 from users.models import Specialization, UserProfile, UserResources, UserSkill
 
@@ -8,7 +9,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SkillGroup
-        fields = "__all__"
+        fields = ('id','name')
 
 
 class SpecializationDashbordSerializer(serializers.ModelSerializer):
@@ -27,17 +28,45 @@ class SkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ('id', 'code', 'name', 'level', 'group', 'specialization')
+        fields = ('id', 'name', 'level', 'group', 'specialization')
+
+
+class ResourceLibrarySerializer(serializers.ModelSerializer):
+    """Отображение библиотек на дашборде."""
+
+    learning_status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ResourceLibrary
+        fields = ("id", "type", "description", "learning_time", "url", "learning_status")
+
+
+    def get_learning_status(self, obj):
+        profile = UserProfile.objects.get(user=self.context['request'].user)
+        current_resource = UserResources.objects.filter(resource=obj, profile=profile)
+        if current_resource:
+            return current_resource[0].status
+        return 'Не добавлен'
+
+class SkillFrontSerializer(serializers.ModelSerializer):
+    """Список всех навыков удобный фронту."""
+
+    group = GroupSerializer()
+    resource_library = ResourceLibrarySerializer(many=True)
+
+    class Meta:
+        model = Skill
+        fields = ('id', 'name', 'level', 'group', 'description', 'type', 'resource_library')
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
     """Навыки пользователя."""
 
-    skill = SkillSerializer()
+    skill = SkillFrontSerializer()
 
     class Meta:
         model = UserSkill
-        fields = ("id", "status", "date_from", "date_to", "skill",)
+        fields = ( "skill",)
 
 
 class LevelSerializer(serializers.ModelSerializer):
@@ -45,14 +74,6 @@ class LevelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Specialization
-        fields = "__all__"
-
-
-class ResourceLibrarySerializer(serializers.ModelSerializer):
-    """Отображение библиотек на дашборде."""
-
-    class Meta:
-        model = ResourceLibrary
         fields = "__all__"
 
 

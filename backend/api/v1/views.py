@@ -11,7 +11,7 @@ from skills.models import ResourceLibrary, Skill, Specialization
 from users.models import UserProfile, UserSkill
 from api.v1.serializers import (DashboardSerializer, LevelSerializer,
                                 LibrarySerializer, ShortUserSkillSerializer,
-                                SkillDetailSerializer, SkillSerializer,
+                                SkillDetailSerializer, SkillFrontSerializer,
                                 UserCreateSkillSerializer, UserSkillSerializer,
                                 UserUpdateSkillSerializer)
 
@@ -40,7 +40,7 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     """Список всех навыков."""
 
     queryset = Skill.objects.all()
-    serializer_class = SkillSerializer
+    serializer_class = SkillFrontSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = (
         'level',
