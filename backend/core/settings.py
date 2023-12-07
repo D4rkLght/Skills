@@ -7,6 +7,7 @@ from dotenv import find_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 env = environ.Env()
 if DEBUG := env.bool("DEBUG", default=True):
     environ.Env.read_env(find_dotenv(".env"))

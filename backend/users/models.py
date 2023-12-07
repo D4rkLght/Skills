@@ -60,6 +60,10 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"Профайл {self.user.username}"
+    
+    def clean(self):
+        if self.current_specialization.name != self.goal_specialization.name:
+            raise Exception('Целевая специализация не может отличаться от текущей.')
 
 
 class UserSkill(models.Model):

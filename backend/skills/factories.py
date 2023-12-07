@@ -91,7 +91,7 @@ class SkillFactory(DjangoModelFactory):
         model = Skill
         django_get_or_create = ("name",)
 
-    name = factory.Faker("skill_types")
+    name = factory.Faker("skill_names")
     description = factory.Faker("sentence")
     specialization = factory.SubFactory(SpecializationFactory)
     group = factory.SubFactory(SkillGroupFactory)
@@ -99,11 +99,13 @@ class SkillFactory(DjangoModelFactory):
     level = FuzzyChoice(SKILL_LEVEL_IDS)
     code = FuzzyInteger(1, 1111)
     date_from = timezone.now()
-    date_to = timezone.now()
+    resource_library = factory.SubFactory(ResourceLibraryFactory)
+ #   date_to = timezone.now()
 
     @factory.post_generation
     def resource_library(self, create, extracted, **kwargs):
         """Генерация resource_library."""
+
         if not create:
             return
         size = randint(MIN_RES_GEN, MAX_RES_GEN)

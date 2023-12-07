@@ -141,7 +141,9 @@ class DashboardSerializer(serializers.ModelSerializer):
         goal_studied_count = 0
         for item in queryset:
             goal_studied_count += item.resource_library.count()
-        return int(studied_count * 100 / goal_studied_count)
+        if goal_studied_count:
+            return int(studied_count * 100 / goal_studied_count)
+        return 100
 
 
 class SpecializationShortSerializer(serializers.ModelSerializer):
