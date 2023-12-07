@@ -61,6 +61,12 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"Профайл {self.user.username}"
 
+    def clean(self):
+        """Проверка совпадения специализаций."""
+        if self.current_specialization.name != self.goal_specialization.name:
+            message = 'Целевая специализация не может отличаться от текущей.'
+            raise Exception(message)
+
 
 class UserSkill(models.Model):
     """Модель навыков пользователя."""
@@ -100,6 +106,7 @@ class UserSkill(models.Model):
     class Meta:
         verbose_name = "Скилл пользователя"
         verbose_name_plural = "Скиллы пользователя"
+        ordering = ('id',)
 
     def __str__(self):
         return f"Пользователь {self.user_profile}"

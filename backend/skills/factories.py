@@ -99,7 +99,7 @@ class SkillFactory(DjangoModelFactory):
     level = FuzzyChoice(SKILL_LEVEL_IDS)
     code = FuzzyInteger(1, 1111)
     date_from = timezone.now()
-    date_to = timezone.now()
+    resource_library = factory.SubFactory(ResourceLibraryFactory)
 
     @factory.post_generation
     def resource_library(self, create, extracted, **kwargs):
