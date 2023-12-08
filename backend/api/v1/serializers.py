@@ -42,12 +42,16 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
 
     def get_learning_status(self, obj):
         """Получение статуса изучения ресурса."""
+
+        if not self.context:
+            return None
         profile = UserProfile.objects.get(user=self.context['request'].user)
         current_resource = UserResources.objects.filter(
             resource=obj, profile=profile)
         if current_resource:
-            return current_resource[0].status
-        return 'Не добавлен'
+            return current_resource[0].status == 'done'
+        return False
+
 
 class SkillFrontSerializer(serializers.ModelSerializer):
     """Список всех навыков удобный фронту."""
