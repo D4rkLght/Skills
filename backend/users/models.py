@@ -87,7 +87,7 @@ class UserSkill(models.Model):
         Skill,
         related_name="skill",
         verbose_name="Навык",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
     status = models.CharField(max_length=8, choices=SKILL_STATUS)
     date_from = models.DateField(
