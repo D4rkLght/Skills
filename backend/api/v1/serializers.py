@@ -42,7 +42,6 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
 
     def get_learning_status(self, obj):
         """Получение статуса изучения ресурса."""
-
         if not self.context:
             return None
         profile = UserProfile.objects.get(user=self.context['request'].user)
