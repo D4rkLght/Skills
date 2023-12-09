@@ -57,6 +57,7 @@ class UserProfile(models.Model):
     class Meta:
         verbose_name = "Данные пользователя"
         verbose_name_plural = "Данные пользователя"
+        ordering = ('id',)
 
     def __str__(self):
         return f"Профайл {self.user.username}"
