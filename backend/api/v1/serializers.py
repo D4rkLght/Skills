@@ -57,6 +57,7 @@ class SkillFrontSerializer(serializers.ModelSerializer):
 
     group = GroupSerializer()
     resource_library = ResourceLibrarySerializer(many=True)
+    level = serializers.CharField(source='get_level_display')
 
     class Meta:
         model = Skill
@@ -71,7 +72,37 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ( "skill",)
+        fields = ("skill",)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Создание профайла пользователя."""
+  #  skills=serializers.PrimaryKeyRelatedField(many=True)
+    class Meta:
+        model = UserProfile
+        fields = ('current_specialization', 'goal_specialization', 'skills')
+
+
+    def validate(self, data):
+        """Проверка, что такого у пользователя еще нет профайла."""
+        profile = UserProfile.objects.filter(user=self.context['request'].user).exists()
+        if profile:
+            raise serializers.ValidationError(
+                'Профайл уже существует!')
+        return data
+    
+    def create(self, validated_data):
+        skills = self.initial_data.pop('skills')
+        profile = UserProfile.objects.create(**validated_data)
+        for status in skills:
+            for id in skills[status]:
+                try:
+                    current_skill = Skill.objects.get(id=id)
+                except:
+                    raise Exception ('Нет навыка с таким id.')
+                UserSkill.objects.create(
+                    skill=current_skill, user_profile=profile, status=status)
+        return validated_data
 
 
 class LevelSerializer(serializers.ModelSerializer):

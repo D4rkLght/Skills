@@ -5,8 +5,9 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
 from api.v1.views import (DashboardViewSet, LevelViewSet, LibraryViewSet,
-                          MyUsersViewSet, ShortUserSkillViewSet, SkillDetail,
-                          SkillViewSet, UserActivationView, UserSkillViewSet)
+                          MyUsersViewSet, ProfileViewSet, ShortUserSkillViewSet,
+                          SkillDetail, SkillViewSet,
+                          UserActivationView, UserSkillViewSet)
 
 app_name = "v1"
 
@@ -27,6 +28,8 @@ router_v1.register("userskills", UserSkillViewSet, basename="userskills")
 router_v1.register("levels", LevelViewSet, basename="level")
 router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
 router_v1.register("libraries", LibraryViewSet, basename="library")
+
+
 router_v1.register(
     "short-userskills",
     ShortUserSkillViewSet,
@@ -43,6 +46,7 @@ urlpatterns = [
     path("auth/", include("djoser.urls.jwt")),
     path('skills/', SkillViewSet.as_view({'get': 'list'})),
     path('skills/<int:pk>/', SkillDetail.as_view()),
+    path('profile/', ProfileViewSet.as_view()),
 ]
 
 urlpatterns += [
