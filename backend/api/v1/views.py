@@ -10,7 +10,8 @@ from rest_framework.views import APIView
 from skills.models import ResourceLibrary, Skill, Specialization
 from users.models import UserProfile, UserSkill
 from api.v1.serializers import (DashboardSerializer, LevelSerializer,
-                                LibrarySerializer, ShortUserSkillSerializer,
+                                LibrarySerializer, ProfileSerializer,
+                                ShortUserSkillSerializer,
                                 SkillDetailSerializer, SkillFrontSerializer,
                                 UserCreateSkillSerializer, UserSkillSerializer,
                                 UserUpdateSkillSerializer)
@@ -82,11 +83,27 @@ class ShortUserSkillViewSet(viewsets.ModelViewSet):
         serializer.save(user_profile=profile)
 
 
+class ProfileViewSet(generics.ListCreateAPIView):
+    """Профайл текущего пользователя."""
+
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        """Профайл текущего пользователя."""
+        return UserProfile.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """Переопределение метода save."""
+        serializer.save(user=self.request.user)
+
+
 class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     """Список уровней должности."""
 
     queryset = Specialization.objects.all()
     serializer_class = LevelSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('name', 'level_name')
 
 
 class DashboardViewSet(viewsets.ReadOnlyModelViewSet):
