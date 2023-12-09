@@ -46,8 +46,9 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
         'level',
         'specialization',
         'specialization__level_name')
-    
+
     def get_serializer_class(self):
+        """Получение сериализатора."""
         if self.action == 'list':
             return SkillFrontSerializer
         elif self.action == 'retrieve':
