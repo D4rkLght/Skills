@@ -4,8 +4,9 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-from api.v1.views import (DashboardViewSet, LevelViewSet, LibraryViewSet,
-                          MyUsersViewSet, ProfileViewSet, ShortUserSkillViewSet,
+from api.v1.views import (DashboardViewSet, LevelViewSet,
+                          LibraryViewSet, MyUsersViewSet,
+                          ProfileViewSet, ShortUserSkillViewSet,
                           SkillDetail, SkillViewSet,
                           UserActivationView, UserSkillViewSet)
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
 from skills.models import ResourceLibrary, Skill, SkillGroup
 from users.models import Specialization, UserProfile, UserResources, UserSkill
 
@@ -77,7 +78,7 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     """Создание профайла пользователя."""
-  #  skills=serializers.PrimaryKeyRelatedField(many=True)
+
     class Meta:
         model = UserProfile
         fields = ('current_specialization', 'goal_specialization', 'skills')
@@ -85,21 +86,20 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Проверка, что такого у пользователя еще нет профайла."""
-        profile = UserProfile.objects.filter(user=self.context['request'].user).exists()
+        profile = UserProfile.objects.filter(
+            user=self.context['request'].user).exists()
         if profile:
             raise serializers.ValidationError(
                 'Профайл уже существует!')
         return data
-    
+
     def create(self, validated_data):
+        """Переопределение метода create."""
         skills = self.initial_data.pop('skills')
         profile = UserProfile.objects.create(**validated_data)
         for status in skills:
             for id in skills[status]:
-                try:
-                    current_skill = Skill.objects.get(id=id)
-                except:
-                    raise Exception ('Нет навыка с таким id.')
+                current_skill = get_object_or_404(Skill, id=id)
                 UserSkill.objects.create(
                     skill=current_skill, user_profile=profile, status=status)
         return validated_data
