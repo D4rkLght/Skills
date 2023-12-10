@@ -70,10 +70,11 @@ class UserSkillSerializer(serializers.ModelSerializer):
     """Навыки пользователя."""
 
     skill = SkillFrontSerializer()
+    userskill_id = serializers.CharField(source='id')
 
     class Meta:
         model = UserSkill
-        fields = ("skill",)
+        fields = ("userskill_id", "skill",)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -253,7 +254,7 @@ class ShortUserSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ("skill",)
+        fields = ("id", "skill",)
 
 
 class UserCreateSkillSerializer(serializers.ModelSerializer):

@@ -81,7 +81,7 @@ class ShortUserSkillViewSet(viewsets.ModelViewSet):
             return ShortUserSkillSerializer
         elif self.request.method == "POST":
             return UserCreateSkillSerializer
-        elif self.request.method == "PATCH":
+        elif self.request.method in ("PATCH", "DELETE"):
             return UserUpdateSkillSerializer
 
     def get_queryset(self):
