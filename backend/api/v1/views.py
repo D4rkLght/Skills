@@ -8,13 +8,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from skills.models import ResourceLibrary, Skill, Specialization
-from users.models import UserProfile, UserSkill
+from users.models import UserProfile, UserResources, UserSkill
 from api.v1.serializers import (DashboardSerializer, LevelSerializer,
                                 LibrarySerializer, ProfileSerializer,
-                                ShortUserSkillSerializer,
+                                ResourceLibrarySerializer, ShortUserSkillSerializer,
                                 SkillDetailSerializer, SkillFrontSerializer,
                                 UserCreateSkillSerializer, UserSkillSerializer,
-                                UserUpdateSkillSerializer)
+                                UserUpdateSkillSerializer, UserResourcesSerializer)
 
 User = get_user_model()
 
@@ -128,3 +128,19 @@ class LibraryViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = ResourceLibrary.objects.all()
     serializer_class = LibrarySerializer
+
+
+class UserResourceViewSet(viewsets.ModelViewSet):
+    """Изменение ресурсов пользователя."""
+
+    serializer_class = UserResourcesSerializer
+
+    def get_queryset(self):
+        """Ресурсы текущего пользователя."""
+        profile = UserProfile.objects.filter(user=self.request.user)
+        return profile
+    
+    def perform_create(self, serializer):
+        """Переопределение метода save."""
+        profile = UserProfile.objects.get(user=self.request.user)
+        serializer.save(profile=profile)

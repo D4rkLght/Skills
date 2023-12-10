@@ -281,3 +281,28 @@ class UserUpdateSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
         fields = ("status",)
+
+
+class UserResourcesSerializer(serializers.ModelSerializer):
+    """Изменение статуса ресурсов пользователя."""
+    
+    class Meta:
+        model = UserProfile
+        fields = ('resources',)
+
+    def create(self, validated_data):
+        """Переопределение метода create."""
+        profile=validated_data.get('profile')
+        try:
+            add = self.initial_data['add']
+            rm = self.initial_data['rm']
+        except:
+            raise serializers.ValidationError({'error': 'Неверные ключи словаря.'})
+
+        for item in add:
+            resource = get_object_or_404(ResourceLibrary, id=item)
+            UserResources.objects.create(profile=profile, resource=resource, status='done')
+        for item in rm:
+            resource = get_object_or_404(ResourceLibrary, id=item)
+            UserResources.objects.filter(profile=profile, resource=resource, status='done').delete()
+        return validated_data
