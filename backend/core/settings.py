@@ -144,6 +144,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 LOGIN_URL = "/accounts/login"
 LOGIN_REDIRECT_URL = "/"
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 
 # EMAIL CONFIG
@@ -194,7 +195,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10000),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100000),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
