@@ -74,10 +74,23 @@ class SkillFrontSerializer(serializers.ModelSerializer):
                   'description', 'type', 'resource_library')
 
 
+class SkillExpandedSerializer(serializers.ModelSerializer):
+    """Список всех навыков для userskills."""
+
+    group = GroupSerializer()
+    resource_library = ResourceLibrarySerializer(many=True)
+    level = serializers.CharField(source='get_level_display')
+
+    class Meta:
+        model = Skill
+        fields = ('id', 'name', 'level', 'group',
+                  'description', 'type', 'resource_library')
+
+
 class UserSkillSerializer(serializers.ModelSerializer):
     """Навыки пользователя."""
 
-    skill = SkillFrontSerializer()
+    skill = SkillExpandedSerializer()
     userskill_id = serializers.CharField(source='id')
 
     class Meta:
