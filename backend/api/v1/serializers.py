@@ -297,7 +297,7 @@ class UserResourcesSerializer(serializers.ModelSerializer):
             rm = self.initial_data['rm']
         except BaseException:
             raise serializers.ValidationError(
-                {'error': 'Неверные ключи словаря.'})
+                {'error': 'Неверные ключи словаря.'}) from None
 
         for item in add:
             resource = get_object_or_404(ResourceLibrary, id=item)

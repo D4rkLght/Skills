@@ -8,13 +8,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from skills.models import ResourceLibrary, Skill, Specialization
-from users.models import UserProfile, UserResources, UserSkill
+from users.models import UserProfile, UserSkill
 from api.v1.serializers import (
     DashboardSerializer,
     LevelSerializer,
     LibrarySerializer,
     ProfileSerializer,
-    ResourceLibrarySerializer,
     ShortUserSkillSerializer,
     SkillDetailSerializer,
     SkillFrontSerializer,
