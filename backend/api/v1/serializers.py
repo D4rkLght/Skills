@@ -72,7 +72,7 @@ class SkillFrontSerializer(serializers.ModelSerializer):
         model = Skill
         fields = ('id', 'name', 'level', 'group',
                   'description', 'type', 'resource_library')
-        
+
 
 class SkillExpandedSerializer(serializers.ModelSerializer):
     """Список всех навыков для userskills."""
