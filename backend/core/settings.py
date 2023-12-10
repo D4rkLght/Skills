@@ -62,7 +62,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://skills.sytes.net"
+    "http://62.84.123.59",
+    "http://localhost"
 ]
 
 ROOT_URLCONF = "core.urls"

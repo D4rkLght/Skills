@@ -1,4 +1,4 @@
 [submodule "hackathon"]
 	path = hackathon
 	url = git@github.com:SergeyGetmanskiy/hackathon.git
-	branch = develop
+	branch = main

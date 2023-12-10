@@ -22,6 +22,15 @@ start: # Запуск контейнеров сервиса
 		docker compose version; \
     fi
 
+reload: # Обновление контейнеров сервиса
+	docker-compose -f infra/dev/docker-compose.local.yaml up --build -d; \
+	if [ $$? -ne 0 ]; \
+    then \
+        docker compose -f infra/dev/docker-compose.local.yaml up --build -d; \
+		docker compose version; \
+    fi
+
+
 stop: # Остановка контейнеров сервиса
 	docker-compose -f infra/dev/docker-compose.local.yaml down; \
 	if [ $$? -ne 0 ]; \
