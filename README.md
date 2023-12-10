@@ -1,5 +1,7 @@
 # Skills
 
+Cервис Яндекс Практикума “Трекер развития”, позволяющего строить план обучения от точки А до точки Б.
+
 # Содержание
 
 1. [Cведения о команде](#info)
@@ -23,6 +25,8 @@
 
 # 2. Cсылка на веб хостинг <a id="host"></a>
 
+[Сервис Bridge](http://skills.sytes.net)
+[Swagger](http://skills.sytes.net/api/v1/swagger/)
 
 # 3. Подготовка к запуску <a id="start"></a>
 
@@ -84,5 +88,12 @@ make clear
 [![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://swagger.io/)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/)
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)](https://www.django-rest-framework.org/)
 
 # 5 Cторонние библиотеки <a id="library"></a>
+[![Poetry](https://img.shields.io/badge/Poetry-464646?style=flat-square&logo=Poetry)](https://python-poetry.org/)
+[![Ruff](https://img.shields.io/badge/Ruff-464646?style=flat-square&logo=Ruff)](https://docs.astral.sh/ruff/)
+[![Pre-commit](https://img.shields.io/badge/Pre-commit-464646?style=flat-square&logo=Pre-commit)](https://pre-commit.com/)
+[![Djoser](https://img.shields.io/badge/Djoser-464646?style=flat-square&logo&color=yellow)](https://github.com/sunscrapers/djoser)
+[![SimpleJWT](https://img.shields.io/badge/SimpleJWT-464646?style=flat-square&logo&color=green)](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
+[![Django-filter](https://img.shields.io/badge/Django-filter-464646?style=flat-square&logo&color=blue)](https://django-filter.readthedocs.io/en/stable/)
