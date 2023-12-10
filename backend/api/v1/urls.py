@@ -8,7 +8,7 @@ from api.v1.views import (DashboardViewSet, LevelViewSet,
                           LibraryViewSet, MyUsersViewSet,
                           ProfileViewSet, ShortUserSkillViewSet,
                           SkillViewSet, UserActivationView,
-                          UserSkillViewSet)
+                          UserSkillViewSet, UserResourceViewSet)
 
 app_name = "v1"
 
@@ -26,6 +26,7 @@ schema_view = get_schema_view(
 router_v1 = DefaultRouter()
 router_v1.register("users", MyUsersViewSet, basename="users")
 router_v1.register("userskills", UserSkillViewSet, basename="userskills")
+router_v1.register("userresources", UserResourceViewSet, basename="resource")
 router_v1.register("levels", LevelViewSet, basename="level")
 router_v1.register("dashboard", DashboardViewSet, basename="dashboard")
 router_v1.register("libraries", LibraryViewSet, basename="library")

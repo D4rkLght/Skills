@@ -9,12 +9,18 @@ from rest_framework.views import APIView
 
 from skills.models import ResourceLibrary, Skill, Specialization
 from users.models import UserProfile, UserSkill
-from api.v1.serializers import (DashboardSerializer, LevelSerializer,
-                                LibrarySerializer, ProfileSerializer,
-                                ShortUserSkillSerializer,
-                                SkillDetailSerializer, SkillFrontSerializer,
-                                UserCreateSkillSerializer, UserSkillSerializer,
-                                UserUpdateSkillSerializer)
+from api.v1.serializers import (
+    DashboardSerializer,
+    LevelSerializer,
+    LibrarySerializer,
+    ProfileSerializer,
+    ShortUserSkillSerializer,
+    SkillDetailSerializer,
+    SkillFrontSerializer,
+    UserCreateSkillSerializer,
+    UserSkillSerializer,
+    UserUpdateSkillSerializer,
+    UserResourcesSerializer)
 
 User = get_user_model()
 
@@ -75,7 +81,7 @@ class ShortUserSkillViewSet(viewsets.ModelViewSet):
             return ShortUserSkillSerializer
         elif self.request.method == "POST":
             return UserCreateSkillSerializer
-        elif self.request.method == "PATCH":
+        elif self.request.method in ("PATCH", "DELETE"):
             return UserUpdateSkillSerializer
 
     def get_queryset(self):
@@ -128,3 +134,19 @@ class LibraryViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = ResourceLibrary.objects.all()
     serializer_class = LibrarySerializer
+
+
+class UserResourceViewSet(viewsets.ModelViewSet):
+    """Изменение ресурсов пользователя."""
+
+    serializer_class = UserResourcesSerializer
+
+    def get_queryset(self):
+        """Ресурсы текущего пользователя."""
+        profile = UserProfile.objects.filter(user=self.request.user)
+        return profile
+
+    def perform_create(self, serializer):
+        """Переопределение метода save."""
+        profile = UserProfile.objects.get(user=self.request.user)
+        serializer.save(profile=profile)
