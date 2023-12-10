@@ -9,7 +9,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SkillGroup
-        fields = ('id','name')
+        fields = ('id', 'name')
 
 
 class SpecializationDashbordSerializer(serializers.ModelSerializer):
@@ -35,11 +35,11 @@ class ResourceLibrarySerializer(serializers.ModelSerializer):
     """Отображение библиотек на дашборде."""
 
     learning_status = serializers.SerializerMethodField()
+
     class Meta:
         model = ResourceLibrary
         fields = ("id", "type", "description",
                   "learning_time", "url", "learning_status")
-
 
     def get_learning_status(self, obj):
         """Получение статуса изучения ресурса."""
@@ -82,7 +82,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('current_specialization', 'goal_specialization', 'skills')
-
 
     def validate(self, data):
         """Проверка, что такого у пользователя еще нет профайла."""
@@ -285,24 +284,29 @@ class UserUpdateSkillSerializer(serializers.ModelSerializer):
 
 class UserResourcesSerializer(serializers.ModelSerializer):
     """Изменение статуса ресурсов пользователя."""
-    
+
     class Meta:
         model = UserProfile
         fields = ('resources',)
 
     def create(self, validated_data):
         """Переопределение метода create."""
-        profile=validated_data.get('profile')
+        profile = validated_data.get('profile')
         try:
             add = self.initial_data['add']
             rm = self.initial_data['rm']
-        except:
-            raise serializers.ValidationError({'error': 'Неверные ключи словаря.'})
+        except BaseException:
+            raise serializers.ValidationError(
+                {'error': 'Неверные ключи словаря.'})
 
         for item in add:
             resource = get_object_or_404(ResourceLibrary, id=item)
-            UserResources.objects.create(profile=profile, resource=resource, status='done')
+            UserResources.objects.create(
+                profile=profile, resource=resource, status='done')
         for item in rm:
             resource = get_object_or_404(ResourceLibrary, id=item)
-            UserResources.objects.filter(profile=profile, resource=resource, status='done').delete()
+            UserResources.objects.filter(
+                profile=profile,
+                resource=resource,
+                status='done').delete()
         return validated_data
