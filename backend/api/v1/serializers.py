@@ -4,6 +4,14 @@ from skills.models import ResourceLibrary, Skill, SkillGroup
 from users.models import Specialization, UserProfile, UserResources, UserSkill
 
 
+class SkillResourceSerializer(serializers.ModelSerializer):
+    """Краткое отображение ресурсов библиотеки."""
+
+    class Meta:
+        model = ResourceLibrary
+        fields = '__all__'
+
+
 class GroupSerializer(serializers.ModelSerializer):
     """Отображение группы."""
 
@@ -57,7 +65,7 @@ class SkillFrontSerializer(serializers.ModelSerializer):
     """Список всех навыков удобный фронту."""
 
     group = GroupSerializer()
-    resource_library = ResourceLibrarySerializer(many=True)
+    resource_library = SkillResourceSerializer(many=True)
     level = serializers.CharField(source='get_level_display')
 
     class Meta:
@@ -214,7 +222,7 @@ class SpecializationShortSerializer(serializers.ModelSerializer):
 class SkillDetailSerializer(serializers.ModelSerializer):
     """Детальная информация о навыке."""
 
-    resource_library = ResourceLibrarySerializer(many=True)
+    resource_library = SkillResourceSerializer(many=True)
     specialization = SpecializationShortSerializer()
 
     class Meta:
