@@ -61,9 +61,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://62.84.123.59",
-    "http://localhost"
+    env.str("URL_FRONTEND", default="http://FRONTEND"),
+    env.str("URL_LOCAL", default="http://LOCAL"),
+    env.str("URL_DOMEN", default="http://DOMEN"),
 ]
 
 ROOT_URLCONF = "core.urls"
