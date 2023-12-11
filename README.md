@@ -1,4 +1,7 @@
+![skills_workflow](https://github.com/D4rkLght/Skills/actions/workflows/Deploy.yml/badge.svg)
 # Skills
+
+Cервис Яндекс Практикума “Трекер развития”, позволяющего строить план обучения от точки А до точки Б.
 
 # Содержание
 
@@ -18,10 +21,14 @@
 
 # 1. Cведения о команде: <a id="info"></a>
 
-1. Разработчик [Ярослав Андреев ](https://github.com/D4rkLght)
+1. Разработчик [Ярослав Андреев](https://github.com/D4rkLght)
+2. Разработчик [Natalia Arlazarova](https://github.com/sic15)
 
 # 2. Cсылка на веб хостинг <a id="host"></a>
 
+- [Авторизация по yandex id](http://skills.sytes.net/accounts/yandex/login)
+- [Сервис Skills](http://skills.sytes.net)
+- [Swagger](http://skills.sytes.net/api/v1/swagger/)
 
 # 3. Подготовка к запуску <a id="start"></a>
 
@@ -57,11 +64,17 @@ poetry install
 
 ## 3.3. Запуск сервера локально <a id="local"></a>
 
+Перед тем как запускать сервер локально, нужно подменить url на frontend части, чтобы отображались страницы.
+Для этого нужно перейти по папкам hackathon/scr/utils/Api.js и в самом конце файла вставить url вместо имеющегося:
+```shell
+baseUrl: 'http://localhost/api/v1'
+```
+
 Запуск сервера локально:
 
 запуск сервиса:
 ```shell
-make start
+make server-init
 ```
 
 остановка сервиса:
@@ -74,16 +87,6 @@ make stop
 make clear
 ```
 
-Базовая команда для запуска БД, миграций, сервиса:
-```shell
-docker exec backend-container-skills make server-init
-```
-
-наполнение PostgreSQL тестовыми данными:
-```shell
-docker exec backend-container-skills poetry run python manage.py loaddata fixtures/data.json
-```
-
 # 4 Cтэк технологий <a id="stack"></a>
 
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
@@ -93,6 +96,12 @@ docker exec backend-container-skills poetry run python manage.py loaddata fixtur
 [![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://swagger.io/)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/)
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)](https://www.django-rest-framework.org/)
 
 # 5 Cторонние библиотеки <a id="library"></a>
-
+[![Poetry](https://img.shields.io/badge/Poetry-464646?style=flat-square&logo=Poetry)](https://python-poetry.org/)
+[![Ruff](https://img.shields.io/badge/Ruff-464646?style=flat-square&logo=Ruff)](https://docs.astral.sh/ruff/)
+[![Pre-commit](https://img.shields.io/badge/Pre-commit-464646?style=flat-square&logo=Pre-commit)](https://pre-commit.com/)
+[![Djoser](https://img.shields.io/badge/Djoser-464646?style=flat-square&logo&color=yellow)](https://github.com/sunscrapers/djoser)
+[![SimpleJWT](https://img.shields.io/badge/SimpleJWT-464646?style=flat-square&logo&color=green)](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
+[![Django-filter](https://img.shields.io/badge/Django-filter-464646?style=flat-square&logo&color=blue)](https://django-filter.readthedocs.io/en/stable/)
